@@ -3,16 +3,7 @@
   "description": "The Pinch API Framework Monorepo",
   "license": "MIT",
   "type": "library",
-  "authors": [
-    {
-      "email": "tim@phoneburner.com",
-      "name": "Tim Lytle"
-    },
-    {
-      "email": "andy@phoneburner.com",
-      "name": "Andy Snell"
-    }
-  ],
+  "authors": [],
   "require": {
     "php": "^8.4",
     "ext-amqp": "*",
