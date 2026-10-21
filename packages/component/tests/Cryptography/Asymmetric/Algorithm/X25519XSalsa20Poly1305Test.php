@@ -52,7 +52,7 @@ final class X25519XSalsa20Poly1305Test extends TestCase
     {
         $sender_keypair = EncryptionKeyPair::import(self::KNOWN_SENDER_KEYPAIR);
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xsalsa20poly1305.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xsalsa20poly1305.txt'));
 
         $plaintext = X25519XSalsa20Poly1305::decrypt($recipient_keypair, $sender_keypair->public, $ciphertext);
 
@@ -64,7 +64,7 @@ final class X25519XSalsa20Poly1305Test extends TestCase
     public function anonymousEncryptionRegressionTest(): void
     {
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xsalsa20poly1305_anonymous.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xsalsa20poly1305_anonymous.txt'));
 
         $plaintext = X25519XSalsa20Poly1305::unseal($recipient_keypair, $ciphertext);
 

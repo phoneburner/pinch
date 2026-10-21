@@ -20,7 +20,7 @@ final class MiddlewareProcessingStartTest extends TestCase
     public function constructorSetsPublicProperties(): void
     {
         $request = new ServerRequest();
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
 
         $event = new MiddlewareProcessingStarted($middleware, $request);
 
@@ -32,7 +32,7 @@ final class MiddlewareProcessingStartTest extends TestCase
     public function getLogEntryReturnsLogEntryWithMiddlewareClass(): void
     {
         $request = new ServerRequest();
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
 
         $event = new MiddlewareProcessingStarted($middleware, $request);
         $log_entry = $event->getLogEntry();

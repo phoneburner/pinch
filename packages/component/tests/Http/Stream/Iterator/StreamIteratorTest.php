@@ -78,8 +78,6 @@ final class StreamIteratorTest extends TestCase
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Cannot Rewind Non-Seekable Stream and Stream at EOF');
-        foreach ($iterator as $chunk) {
-            // noop
-        }
+        self::assertCount(0, $iterator);
     }
 }

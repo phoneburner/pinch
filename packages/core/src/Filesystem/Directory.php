@@ -10,6 +10,9 @@ class Directory
     | \FilesystemIterator::CURRENT_AS_PATHNAME
     | \FilesystemIterator::FOLLOW_SYMLINKS;
 
+    /**
+     * @return \Iterator<string, string>
+     */
     public static function recursive(string $directory): \Iterator
     {
         \assert(\is_dir($directory) && \is_readable($directory));

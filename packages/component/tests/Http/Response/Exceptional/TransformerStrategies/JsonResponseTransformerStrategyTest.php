@@ -41,7 +41,7 @@ final class JsonResponseTransformerStrategyTest extends TestCase
         $exception->method('getAdditional')->willReturn(['path' => '/users/123']);
         $exception->method('withoutHeader')->with(HttpHeader::CONTENT_TYPE)->willReturn($exception);
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $response = $this->strategy->transform($exception, $request, $this->log_trace);
 

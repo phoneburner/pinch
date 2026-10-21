@@ -20,7 +20,7 @@ final class HalTransformerTest extends TestCase
     #[Test]
     public function transformWrapsTransformerAndUsesLinkerAndEmbedder(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $object = new \stdClass();
 
         $transformer = $this->createMock(Transformer::class);
@@ -85,7 +85,7 @@ final class HalTransformerTest extends TestCase
     #[Test]
     public function transformExpectsArray(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $object = new \stdClass();
 
         $transformer = $this->createMock(Transformer::class);
@@ -94,8 +94,8 @@ final class HalTransformerTest extends TestCase
             ->with($object, $request)
             ->willReturn('{foo: bar}');
 
-        $linker = $this->createMock(Linker::class);
-        $embedder = $this->createMock(Embedder::class);
+        $linker = $this->createStub(Linker::class);
+        $embedder = $this->createStub(Embedder::class);
 
         $sut = new HalTransformer(
             $transformer,

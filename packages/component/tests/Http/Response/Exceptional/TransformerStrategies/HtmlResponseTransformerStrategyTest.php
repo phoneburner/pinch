@@ -37,7 +37,7 @@ final class HtmlResponseTransformerStrategyTest extends TestCase
         $exception->method('getHeaders')->willReturn(['X-Test' => ['test-value']]);
         $exception->method('getAdditional')->willReturn([]);
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $response = $this->strategy->transform($exception, $request, $this->log_trace);
 

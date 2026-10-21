@@ -76,6 +76,9 @@ class LazyConfigDefinitionList implements DefinitionList, IteratorAggregate
         return $this->getWrapped()->hasNamedRoute($name);
     }
 
+    /**
+     * @return \Generator<int, RouteDefinition, mixed, void>
+     */
     #[\Override]
     public function getIterator(): \Generator
     {

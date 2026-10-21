@@ -72,7 +72,7 @@ final class LongRunningProcessServiceResetterTest extends TestCase
     public function ignoresRemovingServiceNotInSet(): void
     {
         $resetter = new LongRunningProcessServiceResetter();
-        $service = $this->createMock(ResetInterface::class);
+        $service = $this->createStub(ResetInterface::class);
 
         // Should not cause any errors
         $resetter->remove($service);

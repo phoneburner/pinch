@@ -73,8 +73,7 @@ class ReflectionMethodAutoResolver
     {
         return match (true) {
             ! $type instanceof \ReflectionNamedType,
-            $type->isBuiltin(), // strings, int, etc
-            \in_array($type->getName(), ['parent', 'self', 'static'], true) => null,
+            $type->isBuiltin() => null, // strings, int, etc
             default => $type,
         };
     }

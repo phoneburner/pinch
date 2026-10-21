@@ -39,6 +39,9 @@ final readonly class SimpleWebhookConfigurationCollection implements WebhookConf
         return \count($this->webhooks);
     }
 
+    /**
+     * @return \Generator<array-key, SimpleEventWebhookConfiguration, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->webhooks;

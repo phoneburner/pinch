@@ -2,17 +2,20 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\Catch_\ThrowWithPreviousExceptionRector;
 use Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector;
 use Rector\CodeQuality\Rector\Expression\InlineIfToExplicitIfRector;
 use Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector;
-use Rector\CodeQuality\Rector\If_\ExplicitBoolCompareRector;
 use Rector\CodingStyle\Rector\Catch_\CatchExceptionNameMatchingTypeRector;
 use Rector\CodingStyle\Rector\ClassLike\NewlineBetweenClassLikeStmtsRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Stmt\NewlineAfterStatementRector;
 use Rector\Config\RectorConfig;
 use Rector\DeadCode\Rector\MethodCall\RemoveNullArgOnNullDefaultParamRector;
+use Rector\DeadCode\Rector\MethodCall\RemoveNullNamedArgOnNullDefaultParamRector;
+use Rector\DeadCode\Rector\StmtsAwareInterface\RemoveDeadInstanceOfAssertRector;
 use Rector\Php74\Rector\Closure\ClosureToArrowFunctionRector;
+use Rector\PHPUnit\CodeQuality\Rector\Class_\AddSeeTestAnnotationRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitSelfCallRector;
 use Rector\PHPUnit\CodeQuality\Rector\Class_\PreferPHPUnitThisCallRector;
 
@@ -44,7 +47,6 @@ return RectorConfig::configure()
         naming: false,
         instanceOf: true,
         earlyReturn: true,
-        strictBooleans: false,
         carbon: false,
         rectorPreset: true,
         phpunitCodeQuality: true,
@@ -56,7 +58,6 @@ return RectorConfig::configure()
         PreferPHPUnitThisCallRector::class,
         InlineIfToExplicitIfRector::class,
         LocallyCalledStaticMethodToNonStaticRector::class,
-        ExplicitBoolCompareRector::class,
         NewlineAfterStatementRector::class,
         NewlineBeforeNewAssignSetRector::class,
         CatchExceptionNameMatchingTypeRector::class,
@@ -64,8 +65,21 @@ return RectorConfig::configure()
         // Temporarily disabled due to weirdness with phpcs + newer syntax
         NewlineBetweenClassLikeStmtsRector::class,
 
+        // Runtime instanceof assertions are intentional fail-closed guards
+        RemoveDeadInstanceOfAssertRector::class,
+
+        // Exception chaining is a deliberate choice, especially in cryptography code
+        ThrowWithPreviousExceptionRector::class,
+
+        AddSeeTestAnnotationRector::class,
+
         // Allow explicit usage of null as argument to parameters with a null default in in tests
         RemoveNullArgOnNullDefaultParamRector::class => [
+            __DIR__ . '/packages/core/tests',
+            __DIR__ . '/packages/component/tests',
+            __DIR__ . '/packages/framework/tests',
+        ],
+        RemoveNullNamedArgOnNullDefaultParamRector::class => [
             __DIR__ . '/packages/core/tests',
             __DIR__ . '/packages/component/tests',
             __DIR__ . '/packages/framework/tests',

@@ -14,7 +14,7 @@
   ],
   "type": "library",
   "require": {
-    "php": "^8.4",
+    "php": "^8.5",
     "ext-bcmath": "*",
     "ext-ctype": "*",
     "ext-json": "*",
@@ -72,7 +72,7 @@
       "phpstan/extension-installer": true
     },
     "platform": {
-      "php": "8.4"
+      "php": "8.5"
     },
     "sort-packages": true
   },

@@ -213,6 +213,9 @@ final class IteratorFunctionsTest extends TestCase
     public function iterCastHandlesTraversableThatIsNotIterator(): void
     {
         $traversable = new class implements \Traversable, \IteratorAggregate {
+            /**
+             * @return \Iterator<string, int>
+             */
             public function getIterator(): \Iterator
             {
                 return new \ArrayIterator(['x' => 10, 'y' => 20]);
@@ -234,6 +237,9 @@ final class IteratorFunctionsTest extends TestCase
                 return ['from_array' => 1];
             }
 
+            /**
+             * @return \Iterator<string, int>
+             */
             public function getIterator(): \Iterator
             {
                 return new \ArrayIterator(['from_iterator' => 2]);

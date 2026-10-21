@@ -89,7 +89,7 @@ class RouteGroupDefinition implements Definition, \IteratorAggregate, PhpSeriali
                 narrow_array($route_attributes[MiddlewareInterface::class] ?? []),
             );
 
-            if ($middleware) {
+            if ($middleware !== []) {
                 $attributes[MiddlewareInterface::class] = $middleware;
             }
 

@@ -37,7 +37,7 @@ final class Aegis256Test extends TestCase
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_aegis256.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_aegis256.txt'));
 
         $plaintext = Aegis256::decrypt($shared_key, $ciphertext);
 

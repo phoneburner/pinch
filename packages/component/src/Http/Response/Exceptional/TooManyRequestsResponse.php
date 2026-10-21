@@ -9,6 +9,8 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
 
 class TooManyRequestsResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::TOO_MANY_REQUESTS;
+    #[\Override]
     protected string $title = HttpReasonPhrase::TOO_MANY_REQUESTS;
 }

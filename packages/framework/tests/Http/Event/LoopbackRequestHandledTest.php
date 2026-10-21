@@ -16,7 +16,7 @@ final class LoopbackRequestHandledTest extends TestCase
     #[Test]
     public function constructorAcceptsValidRequestInterface(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
 
         $event = new LoopbackRequestHandled($request);
 
@@ -26,7 +26,7 @@ final class LoopbackRequestHandledTest extends TestCase
     #[Test]
     public function getLogEntryReturnsCorrectLogEntryWithDebugLevel(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new LoopbackRequestHandled($request);
 
         $log_entry = $event->getLogEntry();
@@ -38,7 +38,7 @@ final class LoopbackRequestHandledTest extends TestCase
     #[Test]
     public function getLogEntryReturnsConsistentLogEntry(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new LoopbackRequestHandled($request);
 
         $log_entry_1 = $event->getLogEntry();
@@ -67,7 +67,7 @@ final class LoopbackRequestHandledTest extends TestCase
     #[Test]
     public function eventIsImmutableAfterConstruction(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new LoopbackRequestHandled($request);
 
         self::assertSame($request, $event->request);
@@ -84,7 +84,7 @@ final class LoopbackRequestHandledTest extends TestCase
     {
         $request = $this->createMock(RequestInterface::class);
         $request->method('getMethod')->willReturn('POST');
-        $request->method('getUri')->willReturn($this->createMock(UriInterface::class));
+        $request->method('getUri')->willReturn($this->createStub(UriInterface::class));
 
         $event = new LoopbackRequestHandled($request);
 
@@ -97,7 +97,7 @@ final class LoopbackRequestHandledTest extends TestCase
     #[Test]
     public function logEntryContainsConsistentContext(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new LoopbackRequestHandled($request);
 
         $log_entry = $event->getLogEntry();

@@ -18,7 +18,7 @@ use PhoneBurner\Pinch\Container\Exception\CircularDependency;
 use PhoneBurner\Pinch\Container\Exception\InvalidServiceProvider;
 use PhoneBurner\Pinch\Container\Exception\NotFound;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
@@ -27,18 +27,18 @@ final class ServiceContainerAdapterTest extends TestCase
 {
     private ServiceContainerAdapter $container;
 
-    private App&MockObject $app;
+    private App&Stub $app;
 
     protected function setUp(): void
     {
-        $this->app = $this->createMock(App::class);
+        $this->app = $this->createStub(App::class);
         $this->container = new ServiceContainerAdapter($this->app);
     }
 
     #[Test]
     public function hasReturnsTrueForResolvedServices(): void
     {
-        $service = $this->createMock(LoggerInterface::class);
+        $service = $this->createStub(LoggerInterface::class);
         $this->container->set(LoggerInterface::class, $service);
 
         self::assertTrue($this->container->has(LoggerInterface::class));
@@ -91,7 +91,7 @@ final class ServiceContainerAdapterTest extends TestCase
     #[Test]
     public function getReturnsResolvedService(): void
     {
-        $service = $this->createMock(LoggerInterface::class);
+        $service = $this->createStub(LoggerInterface::class);
         $this->container->set(LoggerInterface::class, $service);
 
         self::assertSame($service, $this->container->get(LoggerInterface::class));
@@ -100,7 +100,7 @@ final class ServiceContainerAdapterTest extends TestCase
     #[Test]
     public function getResolvesServiceFromFactory(): void
     {
-        $service = $this->createMock(LoggerInterface::class);
+        $service = $this->createStub(LoggerInterface::class);
         $factory = new CallableServiceFactory(fn(): LoggerInterface => $service);
         $this->container->set(LoggerInterface::class, $factory);
 
@@ -142,8 +142,8 @@ final class ServiceContainerAdapterTest extends TestCase
             }
         };
 
-        $environment = $this->createMock(Environment::class);
-        $config = $this->createMock(Configuration::class);
+        $environment = $this->createStub(Environment::class);
+        $config = $this->createStub(Configuration::class);
         $mock_app = new MockApp($this->container, Context::Test, $environment, $config);
 
         $this->container = new ServiceContainerAdapter($mock_app);
@@ -201,7 +201,7 @@ final class ServiceContainerAdapterTest extends TestCase
     #[Test]
     public function unsetRemovesService(): void
     {
-        $this->container->set(LoggerInterface::class, $this->createMock(LoggerInterface::class));
+        $this->container->set(LoggerInterface::class, $this->createStub(LoggerInterface::class));
         $this->container->unset(LoggerInterface::class);
 
         self::assertFalse($this->container->has(LoggerInterface::class, true));

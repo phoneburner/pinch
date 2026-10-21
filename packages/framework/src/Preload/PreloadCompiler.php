@@ -90,6 +90,9 @@ class PreloadCompiler
         return $this->count;
     }
 
+    /**
+     * @return \Iterator<string, string>
+     */
     private static function files(string $path): \Iterator
     {
         return new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS

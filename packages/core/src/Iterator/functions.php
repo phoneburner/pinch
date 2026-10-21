@@ -24,10 +24,14 @@ use PhoneBurner\Pinch\Array\Arrayable;
  */
 function iter_cast(Arrayable|iterable $value): \Iterator
 {
+    if ($value instanceof \Traversable && ! $value instanceof \Iterator) {
+        /** @var \Traversable<TKey, TValue> $value */
+        return new \IteratorIterator($value);
+    }
+
     return match (true) {
         \is_array($value) => new \ArrayIterator($value),
         $value instanceof \Iterator => $value,
-        $value instanceof \Traversable => new \IteratorIterator($value),
         $value instanceof Arrayable => new \ArrayIterator($value->toArray()),
     };
 }

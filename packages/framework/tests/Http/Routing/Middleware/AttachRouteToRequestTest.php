@@ -18,6 +18,7 @@ use PhoneBurner\Pinch\Framework\Http\Routing\Middleware\AttachRouteToRequest;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -31,7 +32,7 @@ final class AttachRouteToRequestTest extends TestCase
 
     private MockObject&RequestHandlerInterface $next_handler;
 
-    private MockObject&ResponseInterface $response;
+    private Stub&ResponseInterface $response;
 
     private AttachRouteToRequest $sut;
 
@@ -40,7 +41,7 @@ final class AttachRouteToRequestTest extends TestCase
     {
         $this->request = $this->createMock(ServerRequestInterface::class);
         $this->next_handler = $this->createMock(RequestHandlerInterface::class);
-        $this->response = $this->createMock(ResponseInterface::class);
+        $this->response = $this->createStub(ResponseInterface::class);
 
         $this->router = $this->createMock(Router::class);
 
@@ -61,7 +62,7 @@ final class AttachRouteToRequestTest extends TestCase
 
         $response = $this->sut->process($this->request, $this->next_handler);
         self::assertInstanceOf(MethodNotAllowedResponse::class, $response);
-        self::assertSame($response->allowed_methods, [HttpMethod::Get, HttpMethod::Post]);
+        self::assertSame([HttpMethod::Get, HttpMethod::Post], $response->allowed_methods);
     }
 
     public static function providesMethodsOtherThanOptions(): \Generator
@@ -110,7 +111,7 @@ final class AttachRouteToRequestTest extends TestCase
 
         $response = $this->sut->process($this->request, $this->next_handler);
         self::assertInstanceOf(MethodNotAllowedResponse::class, $response);
-        self::assertSame($response->allowed_methods, [HttpMethod::Get, HttpMethod::Post]);
+        self::assertSame([HttpMethod::Get, HttpMethod::Post], $response->allowed_methods);
     }
 
     #[Test]
@@ -123,7 +124,7 @@ final class AttachRouteToRequestTest extends TestCase
             ->with($this->request)
             ->willReturn($result);
 
-        $request_with_route = $this->createMock(ServerRequestInterface::class);
+        $request_with_route = $this->createStub(ServerRequestInterface::class);
         $this->request->expects($this->once())
             ->method('withAttribute')
             ->with(RouteMatch::class, RouteMatch::make($route, ['path' => 'data']))

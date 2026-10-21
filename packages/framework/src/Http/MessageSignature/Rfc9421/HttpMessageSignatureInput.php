@@ -80,7 +80,6 @@ final readonly class HttpMessageSignatureInput implements \Stringable
         $parameters_string = $matches[3];
 
         // Parse covered components
-        $covered_components = [];
         if (! \preg_match_all('/"([^"]+)"/', $components_string, $component_matches)) {
             throw new InvalidHttpMessageSignatureInput('Invalid covered components format');
         }

@@ -11,6 +11,7 @@ use PhoneBurner\Pinch\Component\Http\Middleware\NullMiddleware;
 use PhoneBurner\Pinch\Component\Http\Middleware\TerminableMiddleware;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -24,7 +25,7 @@ final class LazyMiddlewareTest extends TestCase
 
     private ServerRequestInterface $request;
 
-    private RequestHandlerInterface&MockObject $handler;
+    private RequestHandlerInterface&Stub $handler;
 
     private ResponseInterface $response;
 
@@ -32,7 +33,7 @@ final class LazyMiddlewareTest extends TestCase
     {
         $this->container = $this->createMock(ContainerInterface::class);
         $this->request = new ServerRequest();
-        $this->handler = $this->createMock(RequestHandlerInterface::class);
+        $this->handler = $this->createStub(RequestHandlerInterface::class);
         $this->response = new Response();
     }
 

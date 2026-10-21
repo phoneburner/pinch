@@ -159,8 +159,7 @@ class SessionManager implements SessionManagerContract
         if ($this->shouldAddSessionIdCookie()) {
             $cookies[] = new Cookie(
                 name: self::SESSION_ID_COOKIE_NAME,
-                value: $this->encryptSessionId(),
-                ttl: null, // browser session cookie (session TTL is controlled by the session handler)
+                value: $this->encryptSessionId(), // browser session cookie (session TTL is controlled by the session handler)
                 http_only: true,
                 same_site: SameSite::Lax,
                 encrypt: false,
@@ -170,8 +169,7 @@ class SessionManager implements SessionManagerContract
         if ($this->shouldAddXsrfTokenCookie()) {
             $cookies[] = new Cookie(
                 name: self::XSRF_COOKIE_NAME,
-                value: $this->encryptXsrfToken(),
-                ttl: null, // browser session cookie (session TTL is controlled by the session handler)
+                value: $this->encryptXsrfToken(), // browser session cookie (session TTL is controlled by the session handler)
                 http_only: false, // This is used for XHR requests, so this has to be accessible via JS
                 same_site: SameSite::Lax,
                 encrypt: false, // special handling since this is a cookie-to-header value

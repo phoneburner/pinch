@@ -33,7 +33,7 @@ final class RedirectRequestHandlerTest extends TestCase
     #[Test]
     public function handleThrowsExceptionIfRouteMatchMissing(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $sut = new RedirectRequestHandler();
 

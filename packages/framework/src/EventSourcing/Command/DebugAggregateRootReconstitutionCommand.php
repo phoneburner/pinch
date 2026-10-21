@@ -241,7 +241,7 @@ final class DebugAggregateRootReconstitutionCommand extends Command
         $aggregate_root_reconstitution_times = [];
         $average_event_processing_times = [];
         foreach ($rows as $key => $row) {
-            $test_stopwatch = Stopwatch::start();
+            $test_stopwatch = StopWatch::start();
             $repository->retrieve($row['id']);
             $elapsed = $test_stopwatch->elapsed();
             $rows[$key]['time'] = $elapsed->nanoseconds;

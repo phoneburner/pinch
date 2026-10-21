@@ -255,6 +255,14 @@ final class RandomizerTest extends TestCase
     }
 
     #[Test]
+    public function keysThrowsForNegativeNum(): void
+    {
+        $this->expectException(\UnexpectedValueException::class);
+        $this->expectExceptionMessage('num must be greater than or equal to 0');
+        $this->randomizer->keys(['a' => 1, 'b' => 2], -1);
+    }
+
+    #[Test]
     public function keysReturnsEmptyArrayForEmptyInputArray(): void
     {
         $array = [];

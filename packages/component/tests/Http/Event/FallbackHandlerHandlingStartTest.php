@@ -17,7 +17,7 @@ final class FallbackHandlerHandlingStartTest extends TestCase
     public function constructorSetsPublicProperties(): void
     {
         $request = new ServerRequest();
-        $request_handler = $this->createMock(RequestHandlerInterface::class);
+        $request_handler = $this->createStub(RequestHandlerInterface::class);
 
         $event = new FallbackHandlerHandlingStarted($request_handler, $request);
 
@@ -29,7 +29,7 @@ final class FallbackHandlerHandlingStartTest extends TestCase
     public function getLogEntryReturnsLogEntryWithFallbackHandlerClass(): void
     {
         $request = new ServerRequest();
-        $request_handler = $this->createMock(RequestHandlerInterface::class);
+        $request_handler = $this->createStub(RequestHandlerInterface::class);
 
         $event = new FallbackHandlerHandlingStarted($request_handler, $request);
         $log_entry = $event->getLogEntry();

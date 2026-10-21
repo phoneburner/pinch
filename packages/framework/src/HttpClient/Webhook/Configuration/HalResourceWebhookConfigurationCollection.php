@@ -26,6 +26,9 @@ final readonly class HalResourceWebhookConfigurationCollection implements Webhoo
         return \count($this->webhooks);
     }
 
+    /**
+     * @return \Generator<array-key, HalResourceWebhookConfiguration, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->webhooks;

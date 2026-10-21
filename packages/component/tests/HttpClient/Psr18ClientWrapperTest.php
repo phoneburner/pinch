@@ -35,8 +35,8 @@ final class Psr18ClientWrapperTest extends TestCase
     #[Test]
     public function constructorSetsProperties(): void
     {
-        $client = $this->createMock(ClientInterface::class);
-        $event_dispatcher = $this->createMock(EventDispatcherInterface::class);
+        $client = $this->createStub(ClientInterface::class);
+        $event_dispatcher = $this->createStub(EventDispatcherInterface::class);
         $http_client = new Psr18ClientWrapper($client, $event_dispatcher);
 
         self::assertInstanceOf(Psr18ClientWrapper::class, $http_client);

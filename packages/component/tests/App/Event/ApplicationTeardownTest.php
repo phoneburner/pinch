@@ -14,7 +14,7 @@ final class ApplicationTeardownTest extends TestCase
     #[Test]
     public function constructorSetsAppProperty(): void
     {
-        $app = $this->createMock(App::class);
+        $app = $this->createStub(App::class);
         self::assertSame($app, new ApplicationTeardown($app)->app);
     }
 }

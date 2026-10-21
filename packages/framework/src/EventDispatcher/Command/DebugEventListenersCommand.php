@@ -41,6 +41,8 @@ class DebugEventListenersCommand extends Command
             $table->setHeaders(['Event', 'Listeners']);
             $separator_flag = true;
             foreach ($this->event_dispatcher->getListeners() as $event => $listeners) {
+                /** @var array<object> $listeners */
+                $listeners = array_wrap($listeners);
                 if ($separator_flag) {
                     $table->addRow(new TableSeparator());
                     $separator_flag = false;
@@ -48,7 +50,7 @@ class DebugEventListenersCommand extends Command
 
                 $table->addRow([
                     \sprintf('<comment>%s</comment>', $event),
-                    \implode(\PHP_EOL, \array_map(self::listener(...), array_wrap($listeners))),
+                    \implode(\PHP_EOL, \array_map(self::listener(...), $listeners)),
                 ]);
             }
 
@@ -57,7 +59,9 @@ class DebugEventListenersCommand extends Command
         }
 
         foreach ($this->event_dispatcher->getListeners() as $event => $listeners) {
-            foreach (array_wrap($listeners) as $listener) {
+            /** @var array<object> $listeners */
+            $listeners = array_wrap($listeners);
+            foreach ($listeners as $listener) {
                 $output->writeln(\sprintf("<comment>%s</comment>:  %s", $event, self::listener($listener)));
             }
         }

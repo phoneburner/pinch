@@ -43,6 +43,9 @@ class PhoneNumberArgumentIterator implements \IteratorAggregate, Configurator
     {
     }
 
+    /**
+     * @return \Iterator<int, InputPhoneNumber>
+     */
     #[\Override]
     public function getIterator(): \Iterator
     {
@@ -59,6 +62,9 @@ class PhoneNumberArgumentIterator implements \IteratorAggregate, Configurator
         );
     }
 
+    /**
+     * @return \Generator<int, InputPhoneNumber, mixed, void>
+     */
     public function fromCsvFile(\SplFileInfo $csv_file, int $skip_rows = 1, int $column = 0): \Generator
     {
         if (! $csv_file->isFile() || ! $csv_file->isReadable()) {

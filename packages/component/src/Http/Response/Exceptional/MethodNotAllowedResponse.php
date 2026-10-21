@@ -11,7 +11,9 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
 
 class MethodNotAllowedResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::METHOD_NOT_ALLOWED;
+    #[\Override]
     protected string $title = HttpReasonPhrase::METHOD_NOT_ALLOWED;
 
     /**

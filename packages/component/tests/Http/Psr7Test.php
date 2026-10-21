@@ -99,7 +99,7 @@ final class Psr7Test extends TestCase
     public function expectsReturnsTrueWhenContentTypeMatchesAcceptHeader(): void
     {
         $message = $this->createMock(MessageInterface::class);
-        $message->method('getHeaderLine')
+        $message->expects($this->atLeast(2))->method('getHeaderLine')
             ->willReturnMap([
                 ['Accept', 'application/json'],
                 ['Content-Type', ''],
@@ -112,7 +112,7 @@ final class Psr7Test extends TestCase
     public function expectsReturnsTrueWhenContentTypeMatchesContentTypeHeader(): void
     {
         $message = $this->createMock(MessageInterface::class);
-        $message->method('getHeaderLine')
+        $message->expects($this->atLeast(2))->method('getHeaderLine')
             ->willReturnMap([
                 ['Accept', ''],
                 ['Content-Type', 'application/json'],
@@ -125,7 +125,7 @@ final class Psr7Test extends TestCase
     public function expectsReturnsTrueWhenContentTypeMatchesWithStructuredSyntaxSuffix(): void
     {
         $message = $this->createMock(MessageInterface::class);
-        $message->method('getHeaderLine')
+        $message->expects($this->atLeast(2))->method('getHeaderLine')
             ->willReturnMap([
                 ['Accept', 'application/vnd.api+json'],
                 ['Content-Type', ''],
@@ -138,7 +138,7 @@ final class Psr7Test extends TestCase
     public function expectsReturnsFalseWhenNoMatchingContentType(): void
     {
         $message = $this->createMock(MessageInterface::class);
-        $message->method('getHeaderLine')
+        $message->expects($this->atLeast(2))->method('getHeaderLine')
             ->willReturnMap([
                 ['Accept', 'text/html'],
                 ['Content-Type', 'text/plain'],
@@ -151,7 +151,7 @@ final class Psr7Test extends TestCase
     public function expectsReturnsFalseWhenHeadersAreEmpty(): void
     {
         $message = $this->createMock(MessageInterface::class);
-        $message->method('getHeaderLine')
+        $message->expects($this->atLeast(2))->method('getHeaderLine')
             ->willReturnMap([
                 ['Accept', ''],
                 ['Content-Type', ''],
@@ -201,7 +201,7 @@ final class Psr7Test extends TestCase
     #[Test]
     public function streamWillReturnPassedInstanceIfStreamInterface(): void
     {
-        $stream = $this->createMock(StreamInterface::class);
+        $stream = $this->createStub(StreamInterface::class);
 
         self::assertSame($stream, Psr7::stream($stream));
     }

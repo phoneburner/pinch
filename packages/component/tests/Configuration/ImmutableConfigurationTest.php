@@ -49,10 +49,10 @@ final class ImmutableConfigurationTest extends TestCase
             'foo' => [],
         ],
         '.leading_dot' => 'leading_dot_value',
-        null => [
+        '' => [
             'hidden' => 'foobar_hidden',
             '' => [
-                null => [
+                '' => [
                     '' => 'deep_hidden',
                     'deep' => 'deep_value',
                 ],
@@ -100,7 +100,7 @@ final class ImmutableConfigurationTest extends TestCase
         yield 'empty_parent' => ['empty', true, ['foo' => []]];
         yield 'empty_child' => ['empty.foo', true, []];
         yield 'dot_string' => ['.', true, [
-            null => [
+            '' => [
                 '' => 'deep_hidden',
                 'deep' => 'deep_value',
             ],
@@ -108,7 +108,7 @@ final class ImmutableConfigurationTest extends TestCase
         yield 'empty_string' => ['', true, [
             'hidden' => 'foobar_hidden',
             '' => [
-                null => [
+                '' => [
                     '' => 'deep_hidden',
                     'deep' => 'deep_value',
                 ],

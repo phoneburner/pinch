@@ -17,7 +17,7 @@ final class NotImplementedRequestHandlerTest extends TestCase
     #[Test]
     public function happyPath(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $event_dispatcher = $this->createMock(EventDispatcherInterface::class);
         $event_dispatcher->expects($this->once())

@@ -68,7 +68,7 @@ jobs:
             echo "📍 Current SHA: $CURRENT_SHA"
 
             # Get the SHA of main branch HEAD
-            MAIN_SHA=$(git rev-parse origin/main)
+            MAIN_SHA=$(git ls-remote origin refs/heads/main | cut -f1)
             echo "📍 Main branch SHA: $MAIN_SHA"
 
             if [ "$CURRENT_SHA" = "$MAIN_SHA" ]; then

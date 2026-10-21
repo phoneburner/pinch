@@ -9,7 +9,10 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
 
 class NotImplementedResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::NOT_IMPLEMENTED;
+    #[\Override]
     protected string $title = HttpReasonPhrase::NOT_IMPLEMENTED;
+    #[\Override]
     protected string $detail = 'This functionality is not yet implemented.';
 }

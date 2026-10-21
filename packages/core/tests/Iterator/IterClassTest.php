@@ -51,6 +51,9 @@ final class IterClassTest extends TestCase
 
         yield 'iterator_aggregate' => [
             new class implements \IteratorAggregate {
+                /**
+                 * @return \Iterator<string, string>
+                 */
                 public function getIterator(): \Iterator
                 {
                     return new \ArrayIterator(['agg' => 'test']);
@@ -79,6 +82,9 @@ final class IterClassTest extends TestCase
                 return ['from_array' => 1];
             }
 
+            /**
+             * @return \Iterator<string, int>
+             */
             public function getIterator(): \Iterator
             {
                 return new \ArrayIterator(['from_iterator' => 2]);

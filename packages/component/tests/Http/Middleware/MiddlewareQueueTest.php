@@ -111,7 +111,7 @@ final class MiddlewareQueueTest extends TestCase
         // The event dispatcher will receive events in this order
         $event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($middleware, $middleware_response): MiddlewareProcessingCompleted|MiddlewareProcessingStarted {
+            ->willReturnCallback(function (object $event) use ($middleware, $middleware_response): MiddlewareProcessingCompleted|MiddlewareProcessingStarted {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -145,7 +145,7 @@ final class MiddlewareQueueTest extends TestCase
         // The event dispatcher will receive events in this order
         $event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event): FallbackHandlerHandlingCompleted|FallbackHandlerHandlingStarted {
+            ->willReturnCallback(function (object $event): FallbackHandlerHandlingCompleted|FallbackHandlerHandlingStarted {
                 static $call_count = 0;
                 ++$call_count;
 

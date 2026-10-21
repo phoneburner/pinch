@@ -23,7 +23,7 @@ final class NotFoundRequestHandlerTest extends TestCase
         $logger = $this->createMock(LoggerInterface::class);
         $logger->expects($this->once())
             ->method('notice')
-            ->willReturnCallback(static function ($message, array $context): void {
+            ->willReturnCallback(static function (string|\Stringable $message, array $context): void {
                 self::assertSame('Not Found: {path}', $message);
                 self::assertSame('https://example.com/test/path?with=query', $context['path']);
             });

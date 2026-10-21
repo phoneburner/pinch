@@ -180,13 +180,23 @@ final class ReflectionMethodAutoResolverTest extends TestCase
     }
 
     #[Test]
-    public function handlesSelfType(): void
+    public function resolvesSelfTypeAsDeclaringClass(): void
     {
         $method = new \ReflectionMethod(MethodFixture::class, 'methodWithSelfType');
         $parameter = $method->getParameters()[0]; // Parameter: self $param
 
-        $this->expectException(UnableToAutoResolveParameter::class);
-        ($this->resolver)($parameter);
+        // As of PHP 8.5, reflection reports `self` as the declaring class name
+        $fixture = new MethodFixture();
+        $this->container->expects($this->once())
+            ->method('has')
+            ->with(MethodFixture::class, true)
+            ->willReturn(true);
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(MethodFixture::class)
+            ->willReturn($fixture);
+
+        self::assertSame($fixture, ($this->resolver)($parameter));
     }
 
     #[Test]

@@ -281,7 +281,7 @@ final class HttpServiceProvider implements DeferrableServiceProvider
             DefinitionList::class,
             static fn(App $app): DefinitionList => LazyConfigDefinitionList::makeFromCallable(...\array_map(
                 static fn(string $provider): RouteProvider => narrow(RouteProvider::class, new $provider()),
-                $app->get(HttpConfigStruct::class)->routing->route_providers ?? [],
+                $app->get(HttpConfigStruct::class)->routing->route_providers,
             )),
         );
 

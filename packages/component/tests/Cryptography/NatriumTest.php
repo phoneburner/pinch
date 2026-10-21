@@ -31,7 +31,7 @@ final class NatriumTest extends TestCase
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/Fixtures/lorem_aegis256.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/Fixtures/lorem_aegis256.txt'));
 
         $natrium = new Natrium(new KeyChain($shared_key));
 
@@ -52,7 +52,7 @@ final class NatriumTest extends TestCase
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/Fixtures/lorem_xchacha20blake2b.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/Fixtures/lorem_xchacha20blake2b.txt'));
 
         $natrium = new Natrium(new KeyChain($shared_key), defaults: new Defaults(symmetric: SymmetricAlgorithm::XChaCha20Blake2b));
 
@@ -76,7 +76,7 @@ final class NatriumTest extends TestCase
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
         $sender_keypair = EncryptionKeyPair::import(self::KNOWN_SENDER_KEYPAIR);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/Fixtures/lorem_x25519aegis256.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/Fixtures/lorem_x25519aegis256.txt'));
 
         $natrium = new Natrium(new KeyChain($shared_key, $recipient_keypair));
 
@@ -101,7 +101,7 @@ final class NatriumTest extends TestCase
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
         $sender_keypair = EncryptionKeyPair::import(self::KNOWN_SENDER_KEYPAIR);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/Fixtures/lorem_x25519xchacha20blake2b.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/Fixtures/lorem_x25519xchacha20blake2b.txt'));
 
         $natrium = new Natrium(
             keys: new KeyChain($shared_key, $recipient_keypair),

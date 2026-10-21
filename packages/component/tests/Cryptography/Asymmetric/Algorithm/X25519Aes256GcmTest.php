@@ -50,7 +50,7 @@ final class X25519Aes256GcmTest extends TestCase
     {
         $sender_keypair = EncryptionKeyPair::import(self::KNOWN_SENDER_KEYPAIR);
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519aes256gcm.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519aes256gcm.txt'));
 
         $plaintext = X25519Aes256Gcm::decrypt($recipient_keypair, $sender_keypair->public, $ciphertext);
 
@@ -62,7 +62,7 @@ final class X25519Aes256GcmTest extends TestCase
     public function anonymousEncryptionRegressionTest(): void
     {
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519aes256gcm_anonymous.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519aes256gcm_anonymous.txt'));
 
         $this->expectException(UnsupportedOperation::class);
         X25519Aes256Gcm::unseal($recipient_keypair, $ciphertext);

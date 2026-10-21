@@ -56,7 +56,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[Test]
     public function invokeWritesSerializedResponseToFile(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
         $serialized_content = "HTTP/1.1 200 OK\r\nContent-Type: application/json\r\n\r\n{\"status\":\"success\"}";
 
@@ -90,7 +90,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[DataProvider('provideResponseTypes')]
     public function invokeHandlesDifferentResponseTypes(string $expected_content): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
 
         $this->serializer
@@ -122,7 +122,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[Test]
     public function invokeHandlesLargeResponseContent(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
 
         // Create a large serialized content string (1MB+)
@@ -157,7 +157,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[Test]
     public function invokeLogsErrorWhenSerializerThrowsException(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
         $exception = new \RuntimeException('Serialization failed');
 
@@ -192,7 +192,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[Test]
     public function invokeLogsErrorWhenFileWritingFails(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
 
         $exception = new \RuntimeException('Failed to create directory');
@@ -223,7 +223,7 @@ final class WriteSerializedResponseToFileTest extends TestCase
     #[Test]
     public function invokeUsesCorrectFilenameFormat(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
         $event = new MockResponseAwareEvent($response);
         $serialized_content = "HTTP/1.1 404 Not Found\r\nContent-Type: application/problem+json\r\n\r\n{\"type\":\"not-found\"}";
 

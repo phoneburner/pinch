@@ -63,7 +63,7 @@ final class SymfonyLockAdapterTest extends TestCase
             }
         };
 
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
 
         $lock = new SymfonyLockAdapter($symfony_lock);
         $lock->setLogger($logger);

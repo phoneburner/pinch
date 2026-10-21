@@ -41,10 +41,10 @@ final class HandlerFactoryTest extends TestCase
         string $expected_handler_class,
         array $required_attributes,
     ): void {
-        $resolver = $this->createMock(Resolver::class);
-        $hydrator = $this->createMock(Hydrator::class);
-        $transformer = $this->createMock(Transformer::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $resolver = $this->createStub(Resolver::class);
+        $hydrator = $this->createStub(Hydrator::class);
+        $transformer = $this->createStub(Transformer::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $route_match = $this->createMock(RouteMatch::class);
         $route_match->expects($this->once())
@@ -92,8 +92,8 @@ final class HandlerFactoryTest extends TestCase
             ->with(RouteMatch::class)
             ->willReturn($route_match);
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
 
@@ -116,8 +116,8 @@ final class HandlerFactoryTest extends TestCase
             ->withAttribute(RouteMatch::class, $route_match)
             ->make();
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
 
@@ -146,11 +146,11 @@ final class HandlerFactoryTest extends TestCase
         $container->expects($this->atLeast(1))
             ->method('get')
             ->willReturnMap([
-                ['resolver_class', $this->createMock(Resolver::class)],
-                ['hydrator_class', $this->createMock(Hydrator::class)],
-                ['transformer_class', $this->createMock(Transformer::class)],
+                ['resolver_class', $this->createStub(Resolver::class)],
+                ['hydrator_class', $this->createStub(Hydrator::class)],
+                ['transformer_class', $this->createStub(Transformer::class)],
             ]);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
 
@@ -176,8 +176,8 @@ final class HandlerFactoryTest extends TestCase
             ->withAttribute(RouteMatch::class, $route_match)
             ->make();
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
 
@@ -204,8 +204,8 @@ final class HandlerFactoryTest extends TestCase
             ->withAttribute(RouteMatch::class, $route_match)
             ->make();
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
         $result = $factory->canHandle($request);
@@ -227,8 +227,8 @@ final class HandlerFactoryTest extends TestCase
             ->with(RouteMatch::class)
             ->willReturn($route_match);
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
         $result = $factory->canHandle($request);
@@ -243,8 +243,8 @@ final class HandlerFactoryTest extends TestCase
             ->withRequestMethod(HttpMethod::Get->value)
             ->make();
 
-        $container = $this->createMock(ContainerInterface::class);
-        $response_factory = $this->createMock(ResponseFactory::class);
+        $container = $this->createStub(ContainerInterface::class);
+        $response_factory = $this->createStub(ResponseFactory::class);
 
         $factory = new HandlerFactory($container, $response_factory);
         $result = $factory->canHandle($request);

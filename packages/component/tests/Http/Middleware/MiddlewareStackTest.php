@@ -106,7 +106,7 @@ final class MiddlewareStackTest extends TestCase
         $event_dispatcher = $this->createMock(EventDispatcherInterface::class);
         $event_dispatcher->expects($matcher = $this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($middleware, $middleware_response, $matcher): MiddlewareProcessingStarted|MiddlewareProcessingCompleted {
+            ->willReturnCallback(function (object $event) use ($middleware, $middleware_response, $matcher): MiddlewareProcessingStarted|MiddlewareProcessingCompleted {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertInstanceOf(MiddlewareProcessingStarted::class, $event);
                     self::assertSame($middleware, $event->middleware);
@@ -139,7 +139,7 @@ final class MiddlewareStackTest extends TestCase
         $event_dispatcher = $this->createMock(EventDispatcherInterface::class);
         $event_dispatcher->expects($matcher = $this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($matcher): FallbackHandlerHandlingStarted|FallbackHandlerHandlingCompleted {
+            ->willReturnCallback(function (object $event) use ($matcher): FallbackHandlerHandlingStarted|FallbackHandlerHandlingCompleted {
                 if ($matcher->numberOfInvocations() === 1) {
                     self::assertInstanceOf(FallbackHandlerHandlingStarted::class, $event);
                     self::assertSame($this->fallback_handler, $event->request_handler);

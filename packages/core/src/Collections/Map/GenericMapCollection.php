@@ -165,6 +165,9 @@ class GenericMapCollection implements MapCollection
         return \array_keys($this->data);
     }
 
+    /**
+     * @return \Generator<string, TValue, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->data;

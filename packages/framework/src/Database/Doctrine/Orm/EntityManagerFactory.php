@@ -172,7 +172,7 @@ class EntityManagerFactory
         });
 
         $factory->setRegion(new DefaultRegion(CacheRegion::APPEND_ONLY, match ($cache_driver) {
-            CacheDriver::File, CacheDriver::Remote => $this->cache_factory->createFileCacheItemPool(CacheType::Entity->value, $cache_path),
+            CacheDriver::Remote => $this->cache_factory->createFileCacheItemPool(CacheType::Entity->value, $cache_path),
             CacheDriver::Memory => $this->cache_factory->make(CacheDriver::Memory, \sprintf('orm.%s.entity.', $name)),
         }));
 

@@ -67,7 +67,8 @@ final readonly class Reflect
      */
     public static function getConstant(object|string $class_or_object, string $name): mixed
     {
-        return new ReflectionClass($class_or_object)->getConstant($name);
+        $reflection = new ReflectionClass($class_or_object);
+        return $reflection->hasConstant($name) ? $reflection->getConstant($name) : false;
     }
 
     /**

@@ -40,7 +40,6 @@ return [
             lock_sessions: true,
             encrypt: false,
             compress: false,
-            encoding: null,
             add_xsrf_token_cookie: true,
         ),
         middleware: [

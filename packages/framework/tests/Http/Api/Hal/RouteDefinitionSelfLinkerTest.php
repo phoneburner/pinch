@@ -28,7 +28,7 @@ final class RouteDefinitionSelfLinkerTest extends TestCase
     public function linksMatchesResourceToUri(): void
     {
         $definition_list = $this->createMock(DefinitionList::class);
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $npa = new NpaInventory(
             AreaCode::make(484),
@@ -67,7 +67,7 @@ final class RouteDefinitionSelfLinkerTest extends TestCase
     public function linksFormatsDateTimeInstances(object $resource, string $expected): void
     {
         $definition_list = $this->createMock(DefinitionList::class);
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $definition_list->method('getNamedRoute')
             ->with('api.some-resource')
             ->willReturn(RouteDefinition::make('/api/inventory/npa/{date}')->withName('api.some-resource'));

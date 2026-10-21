@@ -54,6 +54,9 @@ class WeakSet implements \Countable, \IteratorAggregate
         return [...$this->getIterator()];
     }
 
+    /**
+     * @return \Generator<int, T, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         foreach ($this->map as $value => $_) {

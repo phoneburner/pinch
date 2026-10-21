@@ -9,8 +9,12 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
 
 class NotFoundResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::NOT_FOUND;
+    #[\Override]
     protected string $title = HttpReasonPhrase::NOT_FOUND;
+    #[\Override]
     protected string $detail = HttpReasonPhrase::NOT_FOUND;
+    #[\Override]
     protected string|null $http_reason_phrase = HttpReasonPhrase::NOT_FOUND;
 }

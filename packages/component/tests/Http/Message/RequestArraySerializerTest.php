@@ -58,7 +58,7 @@ final class RequestArraySerializerTest extends TestCase
     #[Test]
     public function serializeThrowsExceptionForNonRequestMessage(): void
     {
-        $response = $this->createMock(ResponseInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Message must be an instance of ResponseInterface');

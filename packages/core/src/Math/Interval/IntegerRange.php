@@ -45,6 +45,9 @@ final class IntegerRange implements NumericRange, \IteratorAggregate, \Countable
         };
     }
 
+    /**
+     * @return \Generator<int, int, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         $i = $this->min;

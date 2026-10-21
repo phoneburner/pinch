@@ -50,7 +50,7 @@ final class X25519XChaCha20Blake2bTest extends TestCase
     {
         $sender_keypair = EncryptionKeyPair::import(self::KNOWN_SENDER_KEYPAIR);
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xchacha20blake2b.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xchacha20blake2b.txt'));
 
         $plaintext = X25519XChaCha20Blake2b::decrypt($recipient_keypair, $sender_keypair->public, $ciphertext);
 
@@ -63,7 +63,7 @@ final class X25519XChaCha20Blake2bTest extends TestCase
     {
         $recipient_keypair = EncryptionKeyPair::import(self::KNOWN_RECIPIENT_KEYPAIR);
 
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xchacha20blake2b_anonymous.txt'), Encoding::Base64);
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_x25519xchacha20blake2b_anonymous.txt'), Encoding::Base64);
 
         $plaintext = X25519XChaCha20Blake2b::unseal($recipient_keypair, $ciphertext);
 

@@ -35,15 +35,21 @@ final class ConfigurationFactoryTest extends TestCase
     protected function tearDown(): void
     {
         @\unlink($this->cache_file->getPathname());
-        foreach ([$this->config_dir, $this->root_dir] as $dir) {
-            if (\is_dir($this->config_dir->getPathname())) {
-                foreach (\glob($this->config_dir->getPathname() . '/*') ?: [] as $file) {
-                    if (\is_file($file)) {
-                        @\unlink($file);
-                    }
-                }
-                @\rmdir($this->config_dir->getPathname());
+        foreach (\glob($this->config_dir->getPathname() . '/*') ?: [] as $file) {
+            if (\is_file($file)) {
+                @\unlink($file);
             }
+        }
+
+        foreach (
+            [
+                $this->config_dir->getPathname(),
+                \dirname($this->cache_file->getPathname()),
+                \dirname($this->cache_file->getPathname(), 2),
+                $this->root_dir->getPathname(),
+            ] as $dir
+        ) {
+            @\rmdir($dir);
         }
     }
 

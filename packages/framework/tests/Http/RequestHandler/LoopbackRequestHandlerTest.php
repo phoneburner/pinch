@@ -11,6 +11,7 @@ use PhoneBurner\Pinch\Framework\Http\RequestHandler\LoopbackRequestHandler;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,12 +20,12 @@ use Psr\Http\Message\ServerRequestInterface;
 final class LoopbackRequestHandlerTest extends TestCase
 {
     private EventDispatcherInterface&MockObject $event_dispatcher;
-    private ServerRequestInterface&MockObject $server_request;
+    private ServerRequestInterface&Stub $server_request;
 
     protected function setUp(): void
     {
         $this->event_dispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->server_request = $this->createMock(ServerRequestInterface::class);
+        $this->server_request = $this->createStub(ServerRequestInterface::class);
     }
 
     #[Test]
@@ -32,7 +33,7 @@ final class LoopbackRequestHandlerTest extends TestCase
     {
         $this->event_dispatcher->expects($this->once())
             ->method('dispatch')
-            ->with($this->callback(function ($event): bool {
+            ->with($this->callback(function (object $event): bool {
                 self::assertInstanceOf(LoopbackRequestHandled::class, $event);
                 self::assertSame($this->server_request, $event->request);
                 return true;
@@ -60,7 +61,7 @@ final class LoopbackRequestHandlerTest extends TestCase
     public function handleReturnsCallbackResultWhenCallbackProvided(): void
     {
         // Arrange
-        $expected_response = $this->createMock(ResponseInterface::class);
+        $expected_response = $this->createStub(ResponseInterface::class);
         $response_callback = function () use ($expected_response): ResponseInterface {
             return $expected_response;
         };
@@ -86,7 +87,7 @@ final class LoopbackRequestHandlerTest extends TestCase
 
         $this->event_dispatcher->expects($this->once())
             ->method('dispatch')
-            ->with($this->callback(function ($event) use ($request): bool {
+            ->with($this->callback(function (object $event) use ($request): bool {
                 self::assertInstanceOf(LoopbackRequestHandled::class, $event);
                 self::assertSame($request, $event->request);
                 return true;
@@ -191,7 +192,7 @@ final class LoopbackRequestHandlerTest extends TestCase
     #[Test]
     public function callbackReceivesNoParametersAndCanAccessContext(): void
     {
-        $expected_response = $this->createMock(ResponseInterface::class);
+        $expected_response = $this->createStub(ResponseInterface::class);
         $callback_executed = false;
 
         $response_callback = function () use ($expected_response, &$callback_executed): ResponseInterface {
@@ -226,7 +227,7 @@ final class LoopbackRequestHandlerTest extends TestCase
 
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use (&$dispatched_events) {
+            ->willReturnCallback(function (object $event) use (&$dispatched_events): object {
                 $dispatched_events[] = $event;
                 return $event;
             });
@@ -248,7 +249,7 @@ final class LoopbackRequestHandlerTest extends TestCase
     public function callbackValidationEnsuresProperSignature(): void
     {
         // Arrange
-        $valid_response = $this->createMock(ResponseInterface::class);
+        $valid_response = $this->createStub(ResponseInterface::class);
 
         // Test callback with proper signature (no parameters, returns ResponseInterface)
         $valid_callback = static fn(): ResponseInterface => $valid_response;
