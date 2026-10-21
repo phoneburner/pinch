@@ -14,7 +14,7 @@ final class ApplicationBootstrapTest extends TestCase
     #[Test]
     public function constructorSetsAppProperty(): void
     {
-        $app = $this->createMock(App::class);
+        $app = $this->createStub(App::class);
         self::assertSame($app, new ApplicationBootstrap($app)->app);
     }
 }

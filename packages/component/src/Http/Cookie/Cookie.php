@@ -104,7 +104,7 @@ readonly class Cookie
             'domain' => $this->domain ? \sprintf('Domain=%s', $this->domain) : null,
             'secure' => $this->secure ? 'Secure' : null,
             'http_only' => $this->http_only ? 'HttpOnly' : null,
-            'same_site' => $this->same_site ? \sprintf('SameSite=%s', $this->same_site->name) : null,
+            'same_site' => $this->same_site instanceof SameSite ? \sprintf('SameSite=%s', $this->same_site->name) : null,
             'partitioned' => $this->partitioned ? 'Partitioned' : null,
         ]));
     }

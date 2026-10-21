@@ -19,7 +19,7 @@ final readonly class Hash implements MessageDigest
         Encoding|null $encoding = null,
     ) {
         try {
-            $this->digest = $encoding ? ConstantTimeEncoder::decode($encoding, $digest) : $digest;
+            $this->digest = $encoding instanceof Encoding ? ConstantTimeEncoder::decode($encoding, $digest) : $digest;
         } catch (\Exception $e) {
             throw new InvalidHash('Invalid Encoding for ' . $algorithm->name, previous: $e);
         }

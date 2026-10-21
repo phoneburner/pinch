@@ -298,7 +298,7 @@ readonly class Natrium
         if ($valid_subjects && ! \in_array($decoded_token->payload->sub, $valid_subjects, true)) {
             return false;
         }
-        return ! ($valid_audiences && ! \in_array($decoded_token->payload->aud, $valid_audiences, true));
+        return ! $valid_audiences || \in_array($decoded_token->payload->aud, $valid_audiences, true);
     }
 
     /**

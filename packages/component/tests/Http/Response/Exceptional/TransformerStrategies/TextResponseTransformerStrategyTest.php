@@ -32,7 +32,7 @@ final class TextResponseTransformerStrategyTest extends TestCase
     public function transformCreatesApiProblemResponse(): void
     {
         $exception = new NotFoundResponse();
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $response = $this->strategy->transform($exception, $request, $this->log_trace);
 

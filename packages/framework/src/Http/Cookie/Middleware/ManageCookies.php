@@ -78,7 +78,7 @@ class ManageCookies implements MiddlewareInterface
                 default => $cookie,
             })->toString($this->clock);
 
-            if (\strlen((string)$cookie_header) > 4096) {
+            if (\strlen($cookie_header) > 4096) {
                 throw new ServerErrorResponse(detail: 'Cookie Exceeds 4kb Limit');
             }
 

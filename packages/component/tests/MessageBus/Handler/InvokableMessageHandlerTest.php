@@ -21,7 +21,7 @@ final class InvokableMessageHandlerTest extends TestCase
     public function invokeDispatchesEventsAndCallsContainer(): void
     {
         $message = new stdClass();
-        $container = $this->createMock(InvokingContainer::class);
+        $container = $this->createStub(InvokingContainer::class);
         $event_dispatcher = $this->createMock(EventDispatcherInterface::class);
         $handler = new InvokableMessageHandler($container, $event_dispatcher);
 

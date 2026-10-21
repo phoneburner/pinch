@@ -22,7 +22,7 @@ final class SymfonyLockFactoryAdapterTest extends TestCase
     #[Test]
     public function lockFactorySetsLoggerOnWrappedFactory(): void
     {
-        $logger = $this->createMock(LoggerInterface::class);
+        $logger = $this->createStub(LoggerInterface::class);
         $symfony_lock_factory = $this->createMock(SymfonyLockFactory::class);
         $symfony_lock_factory->expects($this->once())->method('setLogger')->with($logger);
 
@@ -43,7 +43,7 @@ final class SymfonyLockFactoryAdapterTest extends TestCase
         $symfony_lock_factory->expects($this->once())
             ->method('createLockFromKey')
             ->with(new Key('locks.test_resource_key'), $ttl->seconds, $auto_release)
-            ->willReturn($this->createMock(SharedLockInterface::class));
+            ->willReturn($this->createStub(SharedLockInterface::class));
 
         $lock_factory = new SymfonyLockFactoryAdapter(new SymfonyNamedKeyFactory(), $symfony_lock_factory);
 

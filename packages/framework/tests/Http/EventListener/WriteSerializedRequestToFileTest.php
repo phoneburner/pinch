@@ -56,7 +56,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[Test]
     public function invokeWritesSerializedRequestToFile(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
         $serialized_content = "GET /test HTTP/1.1\r\nHost: example.com\r\n\r\n";
 
@@ -90,7 +90,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[DataProvider('provideRequestTypes')]
     public function invokeHandlesDifferentRequestTypes(string $expected_content): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
 
         $this->serializer
@@ -122,7 +122,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[Test]
     public function invokeHandlesLargeRequestContent(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
 
         // Create a large serialized content string (1MB+)
@@ -157,7 +157,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[Test]
     public function invokeLogsErrorWhenSerializerThrowsException(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
         $exception = new \RuntimeException('Serialization failed');
 
@@ -192,7 +192,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[Test]
     public function invokeLogsErrorWhenFileWritingFails(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
 
         $exception = new \RuntimeException('Failed to create directory');
@@ -227,7 +227,7 @@ final class WriteSerializedRequestToFileTest extends TestCase
     #[Test]
     public function invokeUsesCorrectFilenameFormat(): void
     {
-        $request = $this->createMock(RequestInterface::class);
+        $request = $this->createStub(RequestInterface::class);
         $event = new MockRequestAwareEvent($request);
         $serialized_content = "GET /test HTTP/1.1\r\nHost: example.com\r\n\r\n";
 

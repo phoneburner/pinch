@@ -37,6 +37,9 @@ final class FastRouterTest extends TestCase
 {
     use MockRequest;
 
+    /**
+     * @var MockObject&DefinitionList&IteratorAggregate<int, RouteDefinition>
+     */
     private MockObject&DefinitionList&IteratorAggregate $definition_list;
 
     private MockObject&FastRouteDispatcherFactory $dispatcher_factory;
@@ -47,26 +50,21 @@ final class FastRouterTest extends TestCase
 
     private SUT $sut;
 
-    #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
-
         $definition_list = $this->createMockForIntersectionOfInterfaces([DefinitionList::class, IteratorAggregate::class]);
         self::assertInstanceOf(MockObject::class, $definition_list);
         self::assertInstanceOf(IteratorAggregate::class, $definition_list);
         self::assertInstanceOf(DefinitionList::class, $definition_list);
-
         $this->definition_list = $definition_list;
         $this->dispatcher_factory = $this->createMock(FastRouteDispatcherFactory::class);
         $this->result_factory = $this->createMock(FastRouteResultFactory::class);
-
         $this->sut = new SUT(
             narrow(DefinitionList::class, $this->definition_list),
             $this->dispatcher_factory,
             $this->result_factory,
         );
-
         $this->dispatcher = $this->createMock(Dispatcher::class);
     }
 
@@ -117,7 +115,7 @@ final class FastRouterTest extends TestCase
         $sut = new SUT(
             $definition_list,
             new FastRouteDispatcherFactory(
-                $this->createMock(LoggerInterface::class),
+                $this->createStub(LoggerInterface::class),
                 new RoutingConfigStruct(false),
             ),
             new FastRouteResultFactory(),
@@ -183,7 +181,7 @@ final class FastRouterTest extends TestCase
         $this->dispatcher->method('dispatch')
             ->willReturn($match);
 
-        $result = $this->createMock(RouterResult::class);
+        $result = $this->createStub(RouterResult::class);
         $this->result_factory->method('make')
             ->with(FastRouteMatch::make($match))
             ->willReturn($result);
@@ -232,7 +230,7 @@ final class FastRouterTest extends TestCase
             ->with(HttpMethod::instance($method)->value, $uri)
             ->willReturn($match);
 
-        $result = $this->createMock(RouterResult::class);
+        $result = $this->createStub(RouterResult::class);
         $this->result_factory->method('make')
             ->with(FastRouteMatch::make($match))
             ->willReturn($result);

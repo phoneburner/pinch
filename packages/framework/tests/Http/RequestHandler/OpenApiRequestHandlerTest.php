@@ -23,9 +23,9 @@ final class OpenApiRequestHandlerTest extends TestCase
 {
     use MockRequest;
 
-    protected const string JSON_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.json';
-    protected const string HTML_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.html';
-    protected const string YAML_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.yaml';
+    private const string JSON_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.json';
+    private const string HTML_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.html';
+    private const string YAML_FILE = UNIT_TEST_ROOT . '/Fixtures/test-openapi.yaml';
 
     #[\Override]
     protected function setUp(): void

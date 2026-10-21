@@ -65,9 +65,8 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Arrange
         $message = $this->createMockWebhookDeliveryMessage();
         $response = $this->createMock(ResponseInterface::class);
-        $http_client = $this->createMock(HttpClient::class);
 
-        $this->setupSuccessfulHttpClientCall($http_client, $response);
+        $this->setupSuccessfulHttpClientCall($this->createMock(HttpClient::class), $response);
         $this->setupRequestCreationAndSigning();
 
         $response->method('getStatusCode')->willReturn(200);
@@ -75,7 +74,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Expect events to be dispatched in correct order
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message): WebhookDeliveryCompleted|WebhookDeliveryStarted {
+            ->willReturnCallback(function (object $event) use ($message): WebhookDeliveryCompleted|WebhookDeliveryStarted {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -100,9 +99,8 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Arrange
         $message = $this->createMockWebhookDeliveryMessage();
         $response = $this->createMock(ResponseInterface::class);
-        $http_client = $this->createMock(HttpClient::class);
 
-        $this->setupSuccessfulHttpClientCall($http_client, $response);
+        $this->setupSuccessfulHttpClientCall($this->createMock(HttpClient::class), $response);
         $this->setupRequestCreationAndSigning();
 
         $response->method('getStatusCode')->willReturn(500);
@@ -110,7 +108,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Expect events to be dispatched
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message): WebhookDeliveryFailed|WebhookDeliveryStarted {
+            ->willReturnCallback(function (object $event) use ($message): WebhookDeliveryFailed|WebhookDeliveryStarted {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -157,7 +155,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Expect events to be dispatched
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message, $exception): WebhookDeliveryFailed|WebhookDeliveryStarted {
+            ->willReturnCallback(function (object $event) use ($message, $exception): WebhookDeliveryFailed|WebhookDeliveryStarted {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -205,7 +203,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Expect events to be dispatched
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message): WebhookDeliveryFailed|WebhookDeliveryStarted {
+            ->willReturnCallback(function (object $event) use ($message): WebhookDeliveryFailed|WebhookDeliveryStarted {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -278,8 +276,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
             webhook_id: $webhook_id,
             payload: $payload,
         );
-        $request = $this->createMock(RequestInterface::class);
-        $signed_request = $this->createMock(RequestInterface::class);
+        $signed_request = $this->createStub(RequestInterface::class);
 
         // Expect request to have correct headers and method
         $this->signature_factory->expects($this->once())
@@ -305,7 +302,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
     {
         // Arrange
         $webhook_id = Uuid::uuid4();
-        $uri = $this->createMock(UriInterface::class);
+        $uri = $this->createStub(UriInterface::class);
         $configuration = new MockWebhookConfiguration(uri: $uri);
         $message = new MockWebhookDeliveryMessage(
             configuration: $configuration,
@@ -313,8 +310,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
             payload: ['test' => 'data'],
         );
 
-        $request = $this->createMock(RequestInterface::class);
-        $signed_request = $this->createMock(RequestInterface::class);
+        $signed_request = $this->createStub(RequestInterface::class);
 
         // Expect request to have idempotency key header set
         $this->signature_factory->expects($this->once())
@@ -339,7 +335,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
             'X-Custom-Header' => 'custom-value',
         ];
 
-        $uri = $this->createMock(UriInterface::class);
+        $uri = $this->createStub(UriInterface::class);
         $configuration = new MockWebhookConfiguration(
             uri: $uri,
             extra_headers: $extra_headers,
@@ -350,14 +346,14 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
             payload: 'test data',
         );
 
-        $signed_request = $this->createMock(RequestInterface::class);
+        $signed_request = $this->createStub(RequestInterface::class);
 
         // Expect extra headers to be included in the request
         $this->signature_factory->expects($this->once())
             ->method('sign')
             ->with(self::callback(function (RequestInterface $request) use ($extra_headers): bool {
                 $headers = $request->getHeaders();
-                return \array_all($extra_headers, fn($value, $key): bool => isset($headers[$key]) && $headers[$key][0] === $value);
+                return \array_all($extra_headers, fn(string $value, $key): bool => isset($headers[$key]) && $headers[$key][0] === $value);
             }))
             ->willReturn($signed_request);
 
@@ -371,16 +367,15 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Arrange
         $message = $this->createMockWebhookDeliveryMessage();
         $response = $this->createMock(ResponseInterface::class);
-        $http_client = $this->createMock(HttpClient::class);
 
-        $this->setupSuccessfulHttpClientCall($http_client, $response);
+        $this->setupSuccessfulHttpClientCall($this->createMock(HttpClient::class), $response);
         $this->setupRequestCreationAndSigning();
         $response->method('getStatusCode')->willReturn(200);
 
         // Expect WebhookDeliveryCompleted event to include elapsed time
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) {
+            ->willReturnCallback(function (object $event): object {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -402,16 +397,15 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Arrange
         $message = $this->createMockWebhookDeliveryMessage();
         $response = $this->createMock(ResponseInterface::class);
-        $http_client = $this->createMock(HttpClient::class);
 
-        $this->setupSuccessfulHttpClientCall($http_client, $response);
+        $this->setupSuccessfulHttpClientCall($this->createMock(HttpClient::class), $response);
         $this->setupRequestCreationAndSigning();
         $response->method('getStatusCode')->willReturn(500);
 
         // Expect WebhookDeliveryFailed event to include request and response
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message, $response) {
+            ->willReturnCallback(function (object $event) use ($message, $response): object {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -454,7 +448,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
         // Expect WebhookDeliveryFailed event with null request and response
         $this->event_dispatcher->expects($this->exactly(2))
             ->method('dispatch')
-            ->willReturnCallback(function ($event) use ($message, $exception) {
+            ->willReturnCallback(function (object $event) use ($message, $exception): object {
                 static $call_count = 0;
                 ++$call_count;
 
@@ -488,8 +482,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
     {
         // Arrange
         $message = new MockWebhookDeliveryMessage();
-        $request = $this->createMock(RequestInterface::class);
-        $signed_request = $this->createMock(RequestInterface::class);
+        $signed_request = $this->createStub(RequestInterface::class);
 
         // Expect POST method to be used
         $this->signature_factory->expects($this->once())
@@ -508,7 +501,7 @@ final class WebhookDeliveryMessageHandlerTest extends TestCase
     {
         // Arrange
         $message = new MockWebhookDeliveryMessage();
-        $signed_request = $this->createMock(RequestInterface::class);
+        $signed_request = $this->createStub(RequestInterface::class);
 
         // Expect Content-Type header to be set to JSON
         $this->signature_factory->expects($this->once())

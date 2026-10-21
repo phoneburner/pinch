@@ -21,7 +21,7 @@ use const PhoneBurner\Pinch\UNIT_TEST_ROOT;
 
 final class StaticFileRequestHandlerTest extends TestCase
 {
-    protected const string GOOD_FILE = UNIT_TEST_ROOT . '/Fixtures/2500x2500.png';
+    private const string GOOD_FILE = UNIT_TEST_ROOT . '/Fixtures/2500x2500.png';
 
     private StaticFileRequestHandler $sut;
 

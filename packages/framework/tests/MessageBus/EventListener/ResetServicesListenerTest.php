@@ -36,7 +36,7 @@ final class ResetServicesListenerTest extends TestCase
     public function doesNotResetServicesWhenWorkerIsIdle(): void
     {
         $event = new WorkerRunningEvent(
-            $this->createMock(Worker::class),
+            $this->createStub(Worker::class),
             true,
         );
 
@@ -53,7 +53,7 @@ final class ResetServicesListenerTest extends TestCase
     public function resetsServicesWhenWorkerIsNotIdle(): void
     {
         $event = new WorkerRunningEvent(
-            $this->createMock(Worker::class),
+            $this->createStub(Worker::class),
             false,
         );
 
@@ -70,7 +70,7 @@ final class ResetServicesListenerTest extends TestCase
     #[Test]
     public function resetsServicesWhenWorkerStops(): void
     {
-        $event = new WorkerStoppedEvent($this->createMock(Worker::class));
+        $event = new WorkerStoppedEvent($this->createStub(Worker::class));
 
         $this->service_resetter->expects($this->once())
             ->method('reset');

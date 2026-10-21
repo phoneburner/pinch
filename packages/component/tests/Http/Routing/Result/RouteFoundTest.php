@@ -14,15 +14,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 final class RouteFoundTest extends TestCase
 {
-    protected const array PATH_PARAMS = [
+    private const array PATH_PARAMS = [
         'test' => 'data',
     ];
 
-    protected const array ROUTE_ATTRIBUTES = [
+    private const array ROUTE_ATTRIBUTES = [
         'route' => 'data',
     ];
 
-    protected const array DEFAULT_ROUTE_ATTRIBUTES = [
+    private const array DEFAULT_ROUTE_ATTRIBUTES = [
         RequestHandlerInterface::class => NotFoundRequestHandler::class,
         MiddlewareInterface::class => [],
     ];

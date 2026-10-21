@@ -107,7 +107,7 @@ final readonly class AreaCodeLocation
             throw new \InvalidArgumentException('AreaCodeLocation Requires 1 Region');
         }
 
-        $this->region = $regions[\array_key_first($regions)];
+        $this->region = \array_first($regions);
         $this->subdivisions = $subdivisions;
     }
 

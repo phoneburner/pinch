@@ -73,7 +73,7 @@ final class ThrottleRequestsTest extends TestCase
     {
         $this->request->expects($this->exactly(2))
             ->method('getAttribute')
-            ->willReturnCallback(function ($key): string|null {
+            ->willReturnCallback(function (string $key): string|null {
                 if ($key === RateLimits::class) {
                     return null;
                 }
@@ -116,7 +116,7 @@ final class ThrottleRequestsTest extends TestCase
     {
         $this->request->expects($this->exactly(2))
             ->method('getAttribute')
-            ->willReturnCallback(function ($key): null {
+            ->willReturnCallback(function (string $key): null {
                 return null;
             });
 
@@ -201,7 +201,7 @@ final class ThrottleRequestsTest extends TestCase
 
         $this->response->expects($this->exactly(2))
             ->method('withHeader')
-            ->willReturnCallback(function ($header, $value): ResponseInterface&MockObject {
+            ->willReturnCallback(function (string $header, $value): ResponseInterface&MockObject {
                 self::assertContains($header, [HttpHeader::RATELIMIT_POLICY, HttpHeader::RATELIMIT]);
                 return $this->response;
             });
@@ -215,7 +215,7 @@ final class ThrottleRequestsTest extends TestCase
     {
         $this->request->expects($this->exactly(2))
             ->method('getAttribute')
-            ->willReturnCallback(function ($key): string|null {
+            ->willReturnCallback(function (string $key): string|null {
                 if ($key === RateLimits::class) {
                     return null;
                 }

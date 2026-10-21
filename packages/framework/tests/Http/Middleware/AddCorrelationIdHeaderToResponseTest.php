@@ -46,7 +46,7 @@ final class AddCorrelationIdHeaderToResponseTest extends TestCase
         $correlation_id = 'test-correlation-id';
         $middleware = new AddCorrelationIdHeaderToResponse($correlation_id);
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response->method('hasHeader')->with(HttpHeader::X_CORRELATION_ID)->willReturn(true);
@@ -96,7 +96,7 @@ final class AddCorrelationIdHeaderToResponseTest extends TestCase
             override_existing_header: true,
         );
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
 
         $response = $this->createMock(ResponseInterface::class);
         $response->method('hasHeader')->with(HttpHeader::X_CORRELATION_ID)->willReturn(true);

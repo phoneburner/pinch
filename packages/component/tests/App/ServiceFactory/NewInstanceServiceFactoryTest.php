@@ -8,16 +8,16 @@ use PhoneBurner\Pinch\Component\App\App;
 use PhoneBurner\Pinch\Component\App\ServiceFactory\NewInstanceServiceFactory;
 use PhoneBurner\Pinch\Component\Tests\Fixtures\StaticServiceFactoryTestClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 
 final class NewInstanceServiceFactoryTest extends TestCase
 {
-    private App&MockObject $app;
+    private App&Stub $app;
 
     protected function setUp(): void
     {
-        $this->app = $this->createMock(App::class);
+        $this->app = $this->createStub(App::class);
     }
 
     #[Test]

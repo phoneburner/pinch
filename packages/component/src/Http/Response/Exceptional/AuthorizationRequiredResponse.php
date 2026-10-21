@@ -16,8 +16,12 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
  */
 class AuthorizationRequiredResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::FORBIDDEN;
+    #[\Override]
     protected string|null $http_reason_phrase = HttpReasonPhrase::FORBIDDEN;
+    #[\Override]
     protected string $title = 'Authorization Required';
+    #[\Override]
     protected string $detail = 'You do not have permission to access the requested resource.';
 }

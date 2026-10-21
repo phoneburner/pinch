@@ -17,8 +17,12 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
  */
 class AuthenticationRequiredResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::UNAUTHORIZED;
+    #[\Override]
     protected string|null $http_reason_phrase = HttpReasonPhrase::UNAUTHORIZED;
+    #[\Override]
     protected string $title = HttpReasonPhrase::UNAUTHORIZED;
+    #[\Override]
     protected string $detail = 'Authentication is required and has failed or has not yet been provided.';
 }

@@ -19,8 +19,12 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
  */
 class CsrfTokenRequiredResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::FORBIDDEN;
+    #[\Override]
     protected string|null $http_reason_phrase = HttpReasonPhrase::FORBIDDEN;
+    #[\Override]
     protected string $title = 'CSRF Token Required';
+    #[\Override]
     protected string $detail = 'You do not have permission to act on the requested resource, as the required CSRF token is missing or invalid.';
 }

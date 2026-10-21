@@ -10,6 +10,7 @@ use PhoneBurner\Pinch\Component\Http\Middleware\MiddlewareStack;
 use PhoneBurner\Pinch\Component\Http\Middleware\NullMiddleware;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -20,15 +21,15 @@ final class LazyMiddlewareRequestHandlerFactoryTest extends TestCase
 {
     private ContainerInterface&MockObject $container;
 
-    private EventDispatcherInterface&MockObject $event_dispatcher;
+    private EventDispatcherInterface&Stub $event_dispatcher;
 
-    private RequestHandlerInterface&MockObject $fallback_handler;
+    private RequestHandlerInterface&Stub $fallback_handler;
 
     protected function setUp(): void
     {
         $this->container = $this->createMock(ContainerInterface::class);
-        $this->event_dispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->fallback_handler = $this->createMock(RequestHandlerInterface::class);
+        $this->event_dispatcher = $this->createStub(EventDispatcherInterface::class);
+        $this->fallback_handler = $this->createStub(RequestHandlerInterface::class);
     }
 
     #[Test]
@@ -70,7 +71,7 @@ final class LazyMiddlewareRequestHandlerFactoryTest extends TestCase
     #[Test]
     public function queueHandlesMiddlewareInstancesDirectly(): void
     {
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
         $this->container->expects($this->never())
             ->method('get');
 
@@ -83,7 +84,7 @@ final class LazyMiddlewareRequestHandlerFactoryTest extends TestCase
     #[Test]
     public function stackHandlesMiddlewareInstancesDirectly(): void
     {
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
         $this->container->expects($this->never())
             ->method('get');
 

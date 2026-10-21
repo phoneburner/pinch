@@ -7,17 +7,17 @@ namespace PhoneBurner\Pinch\Component\Tests\App\ServiceFactory;
 use PhoneBurner\Pinch\Component\App\ServiceFactory\StaticMethodServiceFactory;
 use PhoneBurner\Pinch\Component\Tests\Fixtures\StaticServiceFactoryTestClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 final class StaticMethodServiceFactoryTest extends TestCase
 {
-    private ContainerInterface&MockObject $container;
+    private ContainerInterface&Stub $container;
 
     protected function setUp(): void
     {
-        $this->container = $this->createMock(ContainerInterface::class);
+        $this->container = $this->createStub(ContainerInterface::class);
     }
 
     #[Test]

@@ -62,7 +62,7 @@ class DoctrineMysqlMessageRepository implements MessageRepository
 
     public function persist(Message ...$messages): void
     {
-        if (! $messages) {
+        if ($messages === []) {
             return;
         }
 

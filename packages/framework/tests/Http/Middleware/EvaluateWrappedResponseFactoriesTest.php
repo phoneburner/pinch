@@ -29,7 +29,7 @@ final class EvaluateWrappedResponseFactoriesTest extends TestCase
             ->method('getWrapped')
             ->willReturn($response);
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler->expects($this->once())
             ->method('handle')
@@ -47,7 +47,7 @@ final class EvaluateWrappedResponseFactoriesTest extends TestCase
         $response = $this->createMock(ResponseInterface::class);
         $response->expects($this->never())->method(self::anything());
 
-        $request = $this->createMock(ServerRequestInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
         $handler = $this->createMock(RequestHandlerInterface::class);
         $handler->expects($this->once())
             ->method('handle')

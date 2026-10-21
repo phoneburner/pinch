@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhoneBurner\Pinch\Tests\Iterator;
 
 use PhoneBurner\Pinch\Iterator\ObservableIterator;
+use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
@@ -18,11 +19,7 @@ final class ObservableIteratorTest extends TestCase
         $sut = new ObservableIterator($foo);
         $sut->attach($observer);
 
-        $counter = 0;
-        foreach ($sut as $value) {
-            ++$counter;
-        }
-
+        self::assertCount(3, $sut);
         self::assertSame(3, $observer->counter);
         self::assertSame([
             ['key' => 'foo', 'value' => 2343],
@@ -43,10 +40,9 @@ final class ObservableIteratorTest extends TestCase
         $sut->attach($observer_1);
         $sut->attach($observer_2);
 
-        $counter = 0;
-        foreach ($sut as $value) {
-            ++$counter;
-            if ($counter === 2) {
+        foreach ($sut as $key => $value) {
+            self::assertSame($foo[$key], $value);
+            if ($key === 'bar') {
                 $sut->detach($observer_1);
             }
         }
@@ -74,11 +70,7 @@ final class ObservableIteratorTest extends TestCase
         $sut = new ObservableIterator($foo);
         $sut->attach($observer);
 
-        $counter = 0;
-        foreach ($sut as $value) {
-            ++$counter;
-        }
-
+        self::assertCount(0, $sut);
         self::assertSame(0, $observer->counter);
         self::assertSame([], $observer->updated);
     }
@@ -126,9 +118,7 @@ final class ObservableIteratorTest extends TestCase
         $sut->attach($observer1);
         $sut->attach($observer2);
 
-        foreach ($sut as $value) {
-            // Just iterate
-        }
+        self::assertCount(2, $sut);
 
         // Both observers should receive all notifications
         self::assertSame(2, $observer1->counter);
@@ -147,9 +137,7 @@ final class ObservableIteratorTest extends TestCase
         $sut->attach($observer);
         $sut->detach($non_attached_observer); // This should not cause any issues
 
-        foreach ($sut as $value) {
-            // Just iterate
-        }
+        self::assertCount(1, $sut);
 
         self::assertSame(1, $observer->counter);
         self::assertSame(0, $non_attached_observer->counter);
@@ -215,9 +203,7 @@ final class ObservableIteratorTest extends TestCase
         $sut->attach($observer);
         $sut->attach($observer); // Attach same observer again
 
-        foreach ($sut as $value) {
-            // Just iterate
-        }
+        self::assertCount(1, $sut);
 
         // Should only be notified once despite being attached twice
         // (SplObjectStorage behavior)
@@ -240,7 +226,7 @@ final class ObservableIteratorTest extends TestCase
             public function update(\SplSubject $subject): void
             {
                 ++$this->counter;
-                \assert($subject instanceof \Iterator);
+                Assert::assertInstanceOf(\Iterator::class, $subject);
                 $key = $subject->key();
                 $current = $subject->current();
                 \assert(\is_string($key) && \is_int($current));

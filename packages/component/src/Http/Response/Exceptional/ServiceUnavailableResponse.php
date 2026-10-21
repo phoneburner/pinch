@@ -9,6 +9,8 @@ use PhoneBurner\Pinch\Component\Http\Domain\HttpStatus;
 
 class ServiceUnavailableResponse extends GenericHttpExceptionResponse
 {
+    #[\Override]
     protected int $status_code = HttpStatus::SERVICE_UNAVAILABLE;
+    #[\Override]
     protected string $title = HttpReasonPhrase::SERVICE_UNAVAILABLE;
 }

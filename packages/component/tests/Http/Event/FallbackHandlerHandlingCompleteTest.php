@@ -19,7 +19,7 @@ final class FallbackHandlerHandlingCompleteTest extends TestCase
     {
         $request = new ServerRequest();
         $response = new Response();
-        $request_handler = $this->createMock(RequestHandlerInterface::class);
+        $request_handler = $this->createStub(RequestHandlerInterface::class);
 
         $event = new FallbackHandlerHandlingCompleted(
             $request_handler,
@@ -37,7 +37,7 @@ final class FallbackHandlerHandlingCompleteTest extends TestCase
     {
         $request = new ServerRequest();
         $response = new Response();
-        $request_handler = $this->createMock(RequestHandlerInterface::class);
+        $request_handler = $this->createStub(RequestHandlerInterface::class);
 
         $event = new FallbackHandlerHandlingCompleted(
             $request_handler,

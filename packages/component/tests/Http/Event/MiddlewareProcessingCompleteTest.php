@@ -22,7 +22,7 @@ final class MiddlewareProcessingCompleteTest extends TestCase
     {
         $request = new ServerRequest();
         $response = new Response();
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
 
         $event = new MiddlewareProcessingCompleted($middleware, $request, $response);
 
@@ -36,7 +36,7 @@ final class MiddlewareProcessingCompleteTest extends TestCase
     {
         $request = new ServerRequest();
         $response = new Response();
-        $middleware = $this->createMock(MiddlewareInterface::class);
+        $middleware = $this->createStub(MiddlewareInterface::class);
 
         $event = new MiddlewareProcessingCompleted($middleware, $request, $response);
         $log_entry = $event->getLogEntry();

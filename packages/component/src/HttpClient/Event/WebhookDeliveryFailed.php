@@ -31,7 +31,7 @@ final readonly class WebhookDeliveryFailed implements Loggable, NullableRequestA
     public function getLogEntry(): LogEntry
     {
         return new LogEntry(
-            level: $this->exception ? LogLevel::Critical : LogLevel::Error,
+            level: $this->exception instanceof \Throwable ? LogLevel::Critical : LogLevel::Error,
             message: \sprintf('Webhook Request Delivery %s Failure', $this->retryable ? 'Retryable' : 'Permanent'),
             context: [
                 'webhook_id' => $this->message->webhook_id->toString(),

@@ -29,11 +29,11 @@ final class HalMiddlewareTest extends TestCase
         $factory = $this->createMock(ResponseFactory::class);
         $factory->expects($this->never())->method('make');
 
-        $transformer = $this->createMock(Transformer::class);
+        $transformer = $this->createStub(Transformer::class);
         $object = new \stdClass();
 
-        $linker = $this->createMock(Linker::class);
-        $embedder = $this->createMock(Embedder::class);
+        $linker = $this->createStub(Linker::class);
+        $embedder = $this->createStub(Embedder::class);
 
         $route_match = $this->createMock(RouteMatch::class);
         $route_match->expects($this->once())
@@ -95,10 +95,10 @@ final class HalMiddlewareTest extends TestCase
     #[Test]
     public function handlePassesResponseIfNotTransformable(): void
     {
-        $request = $this->createMock(ServerRequestInterface::class);
-        $response = $this->createMock(ResponseInterface::class);
+        $request = $this->createStub(ServerRequestInterface::class);
+        $response = $this->createStub(ResponseInterface::class);
 
-        $container = $this->createMock(ContainerInterface::class);
+        $container = $this->createStub(ContainerInterface::class);
         $middleware = new HalMiddleware($container);
 
         $next = $this->createMock(RequestHandlerInterface::class);

@@ -14,7 +14,7 @@ final class KernelExecutionStartTest extends TestCase
     #[Test]
     public function constructorSetsKernelProperty(): void
     {
-        $kernel = $this->createMock(Kernel::class);
+        $kernel = $this->createStub(Kernel::class);
         self::assertSame($kernel, new KernelExecutionStarted($kernel)->kernel);
     }
 }
