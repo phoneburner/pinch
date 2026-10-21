@@ -13,6 +13,7 @@ use PhoneBurner\Pinch\Container\ParameterOverride\OverrideByParameterType;
 use PhoneBurner\Pinch\Container\ParameterOverride\OverrideCollection;
 use PhoneBurner\Pinch\Tests\Fixtures\MethodFixture;
 use PhoneBurner\Pinch\Tests\Fixtures\StringWrapper;
+use PHPUnit\Framework\Attributes\RequiresPhp;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -180,6 +181,7 @@ final class ReflectionMethodAutoResolverTest extends TestCase
     }
 
     #[Test]
+    #[RequiresPhp('< 8.5')]
     public function handlesSelfType(): void
     {
         $method = new \ReflectionMethod(MethodFixture::class, 'methodWithSelfType');
@@ -187,6 +189,27 @@ final class ReflectionMethodAutoResolverTest extends TestCase
 
         $this->expectException(UnableToAutoResolveParameter::class);
         ($this->resolver)($parameter);
+    }
+
+    #[Test]
+    #[RequiresPhp('>= 8.5')]
+    public function resolvesSelfTypeAsDeclaringClass(): void
+    {
+        $method = new \ReflectionMethod(MethodFixture::class, 'methodWithSelfType');
+        $parameter = $method->getParameters()[0]; // Parameter: self $param
+
+        // As of PHP 8.5, reflection reports `self` as the declaring class name
+        $fixture = new MethodFixture();
+        $this->container->expects($this->once())
+            ->method('has')
+            ->with(MethodFixture::class, true)
+            ->willReturn(true);
+        $this->container->expects($this->once())
+            ->method('get')
+            ->with(MethodFixture::class)
+            ->willReturn($fixture);
+
+        self::assertSame($fixture, ($this->resolver)($parameter));
     }
 
     #[Test]

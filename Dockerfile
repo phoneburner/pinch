@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE=php:8.4-fpm
+ARG BASE_IMAGE=php:8.5.12-fpm
 
 ##------------------------------------------------------------------------------
 # Caddy Webserver Build Stages
@@ -165,7 +165,6 @@ RUN --mount=type=bind,rw,from=build-php,source=/usr/bin,target=/usr/bin \
     --enable-intl \
     --enable-mbstring \
     --enable-mysqlnd \
-    --enable-opcache \
     --enable-option-checking=fatal \
     --enable-pcntl \
     --with-config-file-path="$PHP_INI_DIR" \
@@ -198,9 +197,6 @@ RUN --mount=type=bind,rw,from=build-php,source=/usr/bin,target=/usr/bin \
   docker-php-source delete;
   find /usr/local -type f -executable -exec ldd '{}' '; ' | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' | sort -u | xargs -rt dpkg-query --search | awk 'sub(":$", "", $1) { print $1 }' | sort -u | xargs -r apt-mark manual ;
   php --version
-
-  # Enable Opcache (Will Always Be Enabled in PHP 8.5+)
-  docker-php-ext-enable opcache
 
   # Note: Must target the "latest" branch until a new release is made (see https://github.com/php/pie/issues/445)
   # For Xdebug, install but do not enable it, allowing same base image for production and development

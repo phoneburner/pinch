@@ -558,6 +558,7 @@ function cast_string(mixed $value): string
     return match (true) {
         $value === null => '',
         \is_string($value) => $value,
+        \is_float($value) && \is_nan($value) => 'NAN',
         \is_scalar($value) => $value === 0.0 ? '0.0' : (string)$value,
         $value instanceof \Stringable => (string)$value,
         $value instanceof \BackedEnum => (string)$value->value,

@@ -41,7 +41,7 @@ function array_cast(Arrayable|iterable $value): array
  */
 function array_first(array $value): mixed
 {
-    return $value[\array_key_first($value)] ?? null;
+    return $value === [] ? null : $value[\array_key_first($value)];
 }
 
 /**
@@ -54,7 +54,7 @@ function array_first(array $value): mixed
  */
 function array_last(array $value): mixed
 {
-    return $value[\array_key_last($value)] ?? null;
+    return $value === [] ? null : $value[\array_key_last($value)];
 }
 
 /**
