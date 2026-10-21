@@ -1,5 +1,6 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE=php:8.5.12-fpm
+ARG PHP_VERSION=8.5.12
+ARG PHP_SHA256=08bc2eba2a588654ade1357174aa646b761556c862dda0678345ee29ed481209
 
 ##------------------------------------------------------------------------------
 # Caddy Webserver Build Stages
@@ -22,10 +23,6 @@ ENTRYPOINT ["prettier"]
 ##------------------------------------------------------------------------------
 # PHP Base Stages for Development & Production
 ##------------------------------------------------------------------------------
-
-# Docker does not support variable expansion in "COPY --from" statements, so we have to
-# use an intermediate image that essentially retags the base image.
-FROM ${BASE_IMAGE} AS build-php-source
 
 FROM debian:trixie-slim AS build-apt-list
 RUN DEBIAN_FRONTEND="noninteractive" apt-get update;
@@ -61,6 +58,22 @@ RUN minisign -VP RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3 -m lib
 RUN tar -xzf libsodium-1.0.20-stable.tar.gz --strip-components=1
 RUN ./configure
 RUN make -j $(nproc) && make -j $(nproc) check
+
+##------------------------------------------------------------------------------
+# PHP is compiled from the official source release rather than taken from the
+# Docker Official Image, so a patch release can be built as soon as php.net
+# publishes it. The tarball is verified against the SHA-256 published on php.net.
+##------------------------------------------------------------------------------
+
+FROM build-debian AS build-php-source
+ARG PHP_VERSION
+ARG PHP_SHA256
+WORKDIR /usr/src
+RUN <<-EOF
+    set -eux;
+    curl -fsSL -o php.tar.xz "https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz";
+    echo "${PHP_SHA256} *php.tar.xz" | sha256sum -c -;
+EOF
 
 FROM build-debian AS build-php-ext-libs
 RUN --mount=type=bind,from=build-apt-list,source=/var/lib/apt,target=/var/lib/apt,rw \
@@ -111,7 +124,17 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_
 ENV PHP_CPPFLAGS="-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
 ENV PHP_LDFLAGS="-Wl,-O1 -pie"
 ENV PATH="/app/bin:/app/vendor/bin:/app/build/composer/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-COPY --link --from=build-php-source /usr/local/bin/docker-* /usr/local/bin/
+COPY --link --chmod=755 <<-'EOF' /usr/local/bin/docker-php-entrypoint
+#!/bin/sh
+set -e
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- php-fpm "$@"
+fi
+
+exec "$@"
+EOF
 RUN --mount=type=bind,from=build-apt-list,source=/var/lib/apt,target=/var/lib/apt,rw \
     --mount=type=cache,target=/var/cache/apt,sharing=locked <<-EOF
   set -eux;
@@ -153,7 +176,8 @@ RUN --mount=type=bind,rw,from=build-php,source=/usr/bin,target=/usr/bin \
   cp -r "/usr/include/$(dpkg-architecture --query DEB_BUILD_MULTIARCH)/curl" /usr/local/include/curl
   cd /usr/src;
   export CFLAGS="$PHP_CFLAGS" CPPFLAGS="$PHP_CPPFLAGS" LDFLAGS="$PHP_LDFLAGS" PHP_BUILD_PROVIDER='https://github.com/docker-library/php' PHP_UNAME='Linux - Docker' ;
-  docker-php-source extract;
+  mkdir -p /usr/src/php;
+  tar -Jxf /usr/src/php.tar.xz -C /usr/src/php --strip-components=1;
   cd /usr/src/php;
   ./configure \
     --build="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
@@ -194,7 +218,7 @@ RUN --mount=type=bind,rw,from=build-php,source=/usr/bin,target=/usr/bin \
   cp -v php.ini-* "$PHP_INI_DIR/";
   cp -v php.ini-production "$PHP_INI_DIR/php.ini";
   cd /;
-  docker-php-source delete;
+  rm -rf /usr/src/php;
   find /usr/local -type f -executable -exec ldd '{}' '; ' | awk '/=>/ { so = $(NF-1); if (index(so, "/usr/local/") == 1) { next }; gsub("^/(usr/)?", "", so); printf "*%s\n", so }' | sort -u | xargs -rt dpkg-query --search | awk 'sub(":$", "", $1) { print $1 }' | sort -u | xargs -r apt-mark manual ;
   php --version
 
