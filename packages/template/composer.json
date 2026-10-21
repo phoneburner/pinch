@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "project",
   "require": {
-    "php": "^8.4",
+    "php": "^8.5",
     "phoneburner/composer-replacements": "^1.0.0",
     "phoneburner/pinch-framework": "^0.0.36"
   },
@@ -17,7 +17,7 @@
     "phoneburner/pinch-phpstan": "^0.0.36",
     "php-parallel-lint/php-parallel-lint": "^1.4",
     "phpunit/phpunit": "^12.4.0",
-    "rector/rector": "^2.2.1",
+    "rector/rector": "^2.7.0",
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "^7.3.4"
   },

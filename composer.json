@@ -5,7 +5,7 @@
   "type": "library",
   "authors": [],
   "require": {
-    "php": "^8.4",
+    "php": "^8.5",
     "ext-amqp": "*",
     "ext-bcmath": "*",
     "ext-ctype": "*",
@@ -51,10 +51,10 @@
     "phoneburner/http-tortilla": "^2.0.0",
     "phoneburner/link-tortilla": "^1.0.0",
     "phpstan/extension-installer": "^1.4.3",
-    "phpstan/phpstan": "^2.1.30",
-    "phpstan/phpstan-deprecation-rules": "^2.0.3",
-    "phpstan/phpstan-doctrine": "^2.0.10",
-    "phpstan/phpstan-phpunit": "^2.0.7",
+    "phpstan/phpstan": "^2.3.1",
+    "phpstan/phpstan-deprecation-rules": "^2.0.5",
+    "phpstan/phpstan-doctrine": "^2.0.28",
+    "phpstan/phpstan-phpunit": "^2.1.1",
     "psr/cache": "^3.0.0",
     "psr/clock": "^1.0.0",
     "psr/container": "^1.1.2 || ^2.0.2",
@@ -70,7 +70,7 @@
     "psy/psysh": "^0.12.12",
     "ramsey/uuid": "^4.9.1",
     "ramsey/uuid-doctrine": "^2.1",
-    "spaze/phpstan-disallowed-calls": "^4.6.0",
+    "spaze/phpstan-disallowed-calls": "^4.15.0",
     "symfony/amazon-sqs-messenger": "^7.3.4",
     "symfony/amqp-messenger": "^7.3.2",
     "symfony/cache": "^7.3.4",
@@ -97,7 +97,7 @@
     "phoneburner/coding-standard": "^1.0.1",
     "php-parallel-lint/php-parallel-lint": "^1.4",
     "phpunit/phpunit": "^12.4.0",
-    "rector/rector": "^2.2.1",
+    "rector/rector": "^2.7.0",
     "roave/security-advisories": "dev-latest",
     "symfony/var-dumper": "^7.3.4",
     "symplify/monorepo-builder": "^11.2.23"
@@ -157,7 +157,7 @@
       "phpstan/extension-installer": true
     },
     "platform": {
-      "php": "8.4"
+      "php": "8.5.11"
     },
     "sort-packages": true
   },

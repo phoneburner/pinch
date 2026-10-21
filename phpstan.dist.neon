@@ -27,6 +27,7 @@ parameters:
         - identifier: missingType.iterableValue
         - identifier: staticMethod.alreadyNarrowedType
         - identifier: function.alreadyNarrowedType
+        - identifier: method.alreadyNarrowedType
         - identifier: method.internalClass
         - identifier: new.internalClass
 
