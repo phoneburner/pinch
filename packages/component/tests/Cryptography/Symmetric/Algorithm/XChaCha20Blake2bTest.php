@@ -44,7 +44,7 @@ final class XChaCha20Blake2bTest extends TestCase
     public function symmetricEncryptionRegressionTest(): void
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_xchacha20blake2b.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_xchacha20blake2b.txt'));
 
         $plaintext = XChaCha20Blake2b::decrypt($shared_key, $ciphertext);
 

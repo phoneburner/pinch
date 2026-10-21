@@ -122,6 +122,7 @@ final class MemoryUsageTest extends TestCase
 
         // Memory usage should have increased
         self::assertGreaterThan($initial_current->value, $after_allocation->value);
+        self::assertCount(10000, $large_array);
 
         // Clean up
         unset($large_array);

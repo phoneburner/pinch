@@ -48,7 +48,10 @@ class NullableArrayAccess implements \ArrayAccess, \IteratorAggregate, \Countabl
     public function offsetSet(mixed $offset, mixed $value): void
     {
         if ($offset === null) {
-            $this->array[] = $value;
+            $array = $this->array;
+            $array[] = $value;
+            /** @var array<TKey, TValue> $array */
+            $this->array = $array;
             return;
         }
 

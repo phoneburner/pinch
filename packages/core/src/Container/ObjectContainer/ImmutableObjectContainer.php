@@ -61,6 +61,9 @@ final readonly class ImmutableObjectContainer implements
         return \array_keys($this->entries);
     }
 
+    /**
+     * @return \Generator<string, T, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->entries;

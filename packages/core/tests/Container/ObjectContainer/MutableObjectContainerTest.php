@@ -265,6 +265,7 @@ final class MutableObjectContainerTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Value must be an object, got id: string_id, value: (string)not_callable');
+        /** @phpstan-ignore method.impossibleType (intentionally passing a non-object to exercise validation) */
         $this->container->set('string_id', 'not_callable');
     }
 
@@ -443,7 +444,7 @@ final class MutableObjectContainerTest extends TestCase
         // Objects are generally not empty unless they implement specific logic.
         // PHP's array_filter default behaviour might not be intuitive here.
         // Let's test filtering based on a property for clarity.
-        $result = $this->container->filter(fn($obj) => $obj->value ?? false);
+        $this->container->filter(fn($obj) => $obj->value ?? false);
 
         // Re-add entries to the main container for the test
         $this->container->set('key1', $true_obj);

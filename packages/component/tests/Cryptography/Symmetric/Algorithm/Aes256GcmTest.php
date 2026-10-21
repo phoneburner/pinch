@@ -36,7 +36,7 @@ final class Aes256GcmTest extends TestCase
     public function symmetricEncryptionRegressionTest(): void
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_aes256gcm.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_aes256gcm.txt'));
 
         $plaintext = Aes256Gcm::decrypt($shared_key, $ciphertext);
 

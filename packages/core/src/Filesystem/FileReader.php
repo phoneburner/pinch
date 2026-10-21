@@ -42,6 +42,9 @@ class FileReader implements \Stringable, \IteratorAggregate
         }
     }
 
+    /**
+     * @return \Generator<int, string, mixed, void>
+     */
     #[\Override]
     public function getIterator(): \Generator
     {

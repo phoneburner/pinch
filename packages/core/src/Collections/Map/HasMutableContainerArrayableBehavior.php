@@ -94,6 +94,9 @@ trait HasMutableContainerArrayableBehavior
         return \array_keys($this->toArray());
     }
 
+    /**
+     * @return \Generator<string, TValue, mixed, void>
+     */
     public function getIterator(): \Generator
     {
         yield from $this->toArray();

@@ -96,14 +96,18 @@ class Randomizer
      */
     public function keys(array $array, int $num, bool $shuffle = true): array
     {
-        return match (true) {
-            $num === 0, $array === [] => [],
-            $num === 1 => $this->randomizer->pickArrayKeys($array, 1),
-            $shuffle => $this->randomizer->shuffleArray(
-                $this->randomizer->pickArrayKeys($array, \min($num, \count($array))),
-            ),
-            default => $this->randomizer->pickArrayKeys($array, \min($num, \count($array))),
-        };
+        if ($num < 0) {
+            throw new \UnexpectedValueException('num must be greater than or equal to 0');
+        }
+
+        if ($num === 0 || $array === []) {
+            return [];
+        }
+
+        /** @var list<T> $keys */
+        $keys = $this->randomizer->pickArrayKeys($array, \min($num, \count($array)));
+
+        return $shuffle && $num > 1 ? $this->randomizer->shuffleArray($keys) : $keys;
     }
 
     /**
@@ -113,7 +117,14 @@ class Randomizer
      */
     public function key(array $array): int|string|null
     {
-        return $array === [] ? null : $this->randomizer->pickArrayKeys($array, 1)[0];
+        if ($array === []) {
+            return null;
+        }
+
+        /** @var T $key */
+        $key = $this->randomizer->pickArrayKeys($array, 1)[0];
+
+        return $key;
     }
 
     /**
@@ -123,7 +134,7 @@ class Randomizer
      */
     public function value(array $array): mixed
     {
-        return $array === [] ? null : $array[$this->key($array)];
+        return $array === [] ? null : $array[$this->randomizer->pickArrayKeys($array, 1)[0]];
     }
 
     /**

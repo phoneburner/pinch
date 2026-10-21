@@ -36,7 +36,7 @@ final class XChaCha20Poly1305Test extends TestCase
     public function symmetricEncryptionRegressionTest(): void
     {
         $shared_key = SharedKey::import(self::KNOWN_KEY);
-        $ciphertext = CipherText::import(File::read(__DIR__ . '/../../Fixtures/lorem_xchacha20poly1305.txt'));
+        $ciphertext = Ciphertext::import(File::read(__DIR__ . '/../../Fixtures/lorem_xchacha20poly1305.txt'));
 
         $plaintext = XChaCha20Poly1305::decrypt($shared_key, $ciphertext);
 

@@ -38,7 +38,7 @@ final readonly class TimeZoneCollection implements
             throw new \UnderflowException('TimeZoneCollection is Empty');
         }
 
-        return $this->time_zones[\array_key_first($this->time_zones)];
+        return \array_first($this->time_zones);
     }
 
     public function getMinOffsetTimeZone(\DateTimeInterface $datetime = new \DateTimeImmutable()): \DateTimeZone|null
@@ -49,7 +49,7 @@ final readonly class TimeZoneCollection implements
 
         $time_zones = self::sortByUtcOffset($this->time_zones, $datetime);
 
-        return $time_zones[\array_key_first($time_zones)] ?? null;
+        return \array_first($time_zones);
     }
 
     public function getMaxOffsetTimeZone(\DateTimeInterface $datetime = new \DateTimeImmutable()): \DateTimeZone|null
@@ -60,7 +60,7 @@ final readonly class TimeZoneCollection implements
 
         $time_zones = self::sortByUtcOffset($this->time_zones, $datetime);
 
-        return $time_zones[\array_key_last($time_zones)] ?? null;
+        return \array_last($time_zones);
     }
 
     public function getEarliestLocalTime(

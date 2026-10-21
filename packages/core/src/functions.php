@@ -177,6 +177,7 @@ function tap(mixed $value, callable $callback): mixed
 function once(callable $fn): callable
 {
     $called = false;
+    /** @var T $result */
     $result = null;
     return static function () use (&$called, &$result, $fn): mixed {
         if ($called) {
