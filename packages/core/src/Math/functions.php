@@ -317,8 +317,9 @@ function is_float_representable_as_int(float $value): bool
         return false;
     }
 
-    // Check range boundaries more precisely
-    if ($value > (float)\PHP_INT_MAX || $value < (float)\PHP_INT_MIN) {
+    // (float)PHP_INT_MAX rounds up to 2^63, which is itself out of range, so the
+    // upper bound is exclusive; (float)PHP_INT_MIN is exactly -2^63 and in range
+    if ($value >= (float)\PHP_INT_MAX || $value < (float)\PHP_INT_MIN) {
         return false;
     }
 
