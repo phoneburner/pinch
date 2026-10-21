@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-ARG BASE_IMAGE=php:8.5.11-fpm
+ARG BASE_IMAGE=php:8.5-fpm
 
 ##------------------------------------------------------------------------------
 # Caddy Webserver Build Stages

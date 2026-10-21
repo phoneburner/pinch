@@ -83,7 +83,7 @@
       "phpstan/extension-installer": true
     },
     "platform": {
-      "php": "8.5.11"
+      "php": "8.5"
     },
     "sort-packages": true
   },
